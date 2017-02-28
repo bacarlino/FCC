@@ -3,13 +3,8 @@ var ReactDOM = require('react-dom');
 
 
 class Display extends React.Component {
-  // componentWillReceiveProps(nextProps) {
-  //     if (!nextProps.clear) {
-  //       this.props.callback()
-  //     }
-  // }
-
   render() {
+    console.log('rendering Display');
     return (
       <div id="calc-display">
         <div id="top-disp">{this.props.total}</div>
@@ -50,29 +45,41 @@ class Calculator extends React.Component {
     this.calculate = this.calculate.bind(this);
     this.clearScreen = this.clearScreen.bind(this);
     this.clearEntry = this.clearEntry.bind(this);
+    this.toggleClearTrue = this.toggleClearTrue.bind(this);
+    this.toggleClearFalse = this.toggleClearFalse.bind(this);
   }
 
   numberPress(value) {
-      var re = /[+\-*/]/;
-      var newEquation = this.state.equation + value;
-      var newPrevEntry = "";
+    var newEquation = this.state.equation + value;
+    var newPrevEntry = "";
 
-      if (re.test(this.prevEntry)) {
-        newPrevEntry = value;
-      } else {
-        newPrevEntry = this.state.prevEntry + value;
+    if (this.state.nextClear) {
+      newEquation = value;
+      this.toggleClearFalse();
+
+    } else {
+        if (/[-+*/]/.test(this.prevEntry)) {
+          newPrevEntry = this.state.prevEntry + value;
+        } else {
+          newPrevEntry = value;
+        }
       }
-      console.log('prevEntry set to:', newPrevEntry);
-      this.setState({
-        screenValue: newEquation,
-        equation: newEquation,
-        prevEntry: newPrevEntry
-      });
+
+    this.setState({
+      screenValue: newPrevEntry,
+      equation: newEquation,
+      prevEntry: newPrevEntry
+    });
   }
 
   operatorPress(value) {
     var newEquation = this.state.equation + value;
-    console.log('prevEntry set to:', value);
+
+    if(this.state.nextClear) {
+      newEquation = value;
+      this.toggleClearFalse();
+    }
+
     this.setState({
       screenValue: value,
       equation: newEquation,
@@ -81,8 +88,15 @@ class Calculator extends React.Component {
   }
 
   calculate(value) {
-    var result = eval(this.state.equation);
-    var newEquation = this.state.equation + value + result;
+    var result = this.state.equation ? eval(this.state.equation): '0';
+    var newEquation;
+
+    if (result !== '0')  {
+      newEquation = this.state.equation + value + result;
+    } else {
+      newEquation = ""
+    }
+
     this.setState({
       screenValue: result,
       equation: newEquation,
@@ -95,6 +109,18 @@ class Calculator extends React.Component {
       screenValue: 0,
       equation: '',
       prevEntry: []
+    });
+  }
+
+  toggleClearTrue() {
+    this.setState({
+      nextClear: true
+    });
+  }
+
+  toggleClearFalse() {
+    this.setState({
+      nextClear: false
     });
   }
 
@@ -118,7 +144,8 @@ class Calculator extends React.Component {
                     <Display total={this.state.screenValue}
                              equation={this.state.equation}
                              clear={this.state.nextClear}
-                             callback={this.clearScreen}
+                             callback1={this.clearScreen}
+                             callback2={this.toggleClearFalse}
                              />
                   </td>
                 </tr>
