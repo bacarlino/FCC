@@ -14,6 +14,7 @@ class Display extends React.Component {
   }
 }
 
+
 class Button extends React.Component {
   handleClick() {
     this.props.onClick(this.props.face);
@@ -29,14 +30,15 @@ class Button extends React.Component {
   }
 }
 
+
 class Calculator extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
       screenValue: '0',
-      equation: "",
-      prevEntry: [],
+      equation: '',
+      prevEntry: '',
       nextClear: false
     };
 
@@ -44,26 +46,38 @@ class Calculator extends React.Component {
     this.operatorPress = this.operatorPress.bind(this);
     this.calculate = this.calculate.bind(this);
     this.clearScreen = this.clearScreen.bind(this);
-    this.clearEntry = this.clearEntry.bind(this);
+    this.undo = this.undo.bind(this);
     this.toggleClearTrue = this.toggleClearTrue.bind(this);
     this.toggleClearFalse = this.toggleClearFalse.bind(this);
   }
 
   numberPress(value) {
-    var newEquation = this.state.equation + value;
-    var newPrevEntry = "";
+    var re = /[-+*/]/;
+    var newEquation = 'Error';
+    var newPrevEntry = 'Error';
 
     if (this.state.nextClear) {
       newEquation = value;
+      newPrevEntry = value;
       this.toggleClearFalse();
-
     } else {
-        if (/[-+*/]/.test(this.prevEntry)) {
-          newPrevEntry = this.state.prevEntry + value;
-        } else {
+
+        if (re.test(this.state.prevEntry)) {
           newPrevEntry = value;
+        } else {
+
+          if (this.state.prevEntry.length >= 13) {
+            newPrevEntry = this.state.prevEntry;
+          } else {
+            newPrevEntry = this.state.prevEntry + value;
+            }
+          }
+          if (this.state.equation.length >= 28) {
+            newEquation = this.state.equation;
+          } else {
+            newEquation = this.state.equation + value
+          }
         }
-      }
 
     this.setState({
       screenValue: newPrevEntry,
@@ -91,7 +105,7 @@ class Calculator extends React.Component {
     var result = this.state.equation ? eval(this.state.equation): '0';
     var newEquation;
 
-    if (result !== '0')  {
+    if (result !== '0') {
       newEquation = this.state.equation + value + result;
     } else {
       newEquation = ""
@@ -124,10 +138,23 @@ class Calculator extends React.Component {
     });
   }
 
-  clearEntry() {
-    var sliceIndex = this.state.equation.length - this.state.prevEntry.length;
-    var newEquation = this.state.equation.slice(0, sliceIndex);
+  undo() {
+    if (this.state.nextClear) {
+      this.clearScreen();
+      this.toggleClearFalse();
+    }
+
+    if (this.state.screenValue.length === 1) {
+      newScreenValue = '0';
+      } else {
+        var newScreenValue = this.state.screenValue.slice(0, -1);
+      }
+    var newEquation = this.state.equation.slice(0, -1);
+
+
     this.setState({
+      screenValue: newScreenValue,
+      prevEntry: '',
       equation: newEquation
     });
   }
@@ -151,7 +178,7 @@ class Calculator extends React.Component {
                 </tr>
                 <tr>
                   <Button face="AC" onClick={this.clearScreen} />
-                  <Button face="CE" onClick={this.clearEntry} />
+                  <Button face="Undo" onClick={this.undo} />
                   <Button face="/" onClick={this.operatorPress} />
                   <Button face="*" onClick={this.operatorPress} />
                 </tr>

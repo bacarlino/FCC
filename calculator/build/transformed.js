@@ -21770,8 +21770,8 @@ var Calculator = function (_React$Component3) {
 
     _this3.state = {
       screenValue: '0',
-      equation: "",
-      prevEntry: [],
+      equation: '',
+      prevEntry: '',
       nextClear: false
     };
 
@@ -21779,7 +21779,7 @@ var Calculator = function (_React$Component3) {
     _this3.operatorPress = _this3.operatorPress.bind(_this3);
     _this3.calculate = _this3.calculate.bind(_this3);
     _this3.clearScreen = _this3.clearScreen.bind(_this3);
-    _this3.clearEntry = _this3.clearEntry.bind(_this3);
+    _this3.undo = _this3.undo.bind(_this3);
     _this3.toggleClearTrue = _this3.toggleClearTrue.bind(_this3);
     _this3.toggleClearFalse = _this3.toggleClearFalse.bind(_this3);
     return _this3;
@@ -21788,17 +21788,30 @@ var Calculator = function (_React$Component3) {
   _createClass(Calculator, [{
     key: 'numberPress',
     value: function numberPress(value) {
-      var newEquation = this.state.equation + value;
-      var newPrevEntry = "";
+      var re = /[-+*/]/;
+      var newEquation = 'Error';
+      var newPrevEntry = 'Error';
 
       if (this.state.nextClear) {
         newEquation = value;
+        newPrevEntry = value;
         this.toggleClearFalse();
       } else {
-        if (/[-+*/]/.test(this.prevEntry)) {
-          newPrevEntry = this.state.prevEntry + value;
-        } else {
+
+        if (re.test(this.state.prevEntry)) {
           newPrevEntry = value;
+        } else {
+
+          if (this.state.prevEntry.length >= 13) {
+            newPrevEntry = this.state.prevEntry;
+          } else {
+            newPrevEntry = this.state.prevEntry + value;
+          }
+        }
+        if (this.state.equation.length >= 28) {
+          newEquation = this.state.equation;
+        } else {
+          newEquation = this.state.equation + value;
         }
       }
 
@@ -21866,11 +21879,23 @@ var Calculator = function (_React$Component3) {
       });
     }
   }, {
-    key: 'clearEntry',
-    value: function clearEntry() {
-      var sliceIndex = this.state.equation.length - this.state.prevEntry.length;
-      var newEquation = this.state.equation.slice(0, sliceIndex);
+    key: 'undo',
+    value: function undo() {
+      if (this.state.nextClear) {
+        this.clearScreen();
+        this.toggleClearFalse();
+      }
+
+      if (this.state.screenValue.length === 1) {
+        newScreenValue = '0';
+      } else {
+        var newScreenValue = this.state.screenValue.slice(0, -1);
+      }
+      var newEquation = this.state.equation.slice(0, -1);
+
       this.setState({
+        screenValue: newScreenValue,
+        prevEntry: '',
         equation: newEquation
       });
     }
@@ -21910,7 +21935,7 @@ var Calculator = function (_React$Component3) {
                   'tr',
                   null,
                   React.createElement(Button, { face: 'AC', onClick: this.clearScreen }),
-                  React.createElement(Button, { face: 'CE', onClick: this.clearEntry }),
+                  React.createElement(Button, { face: 'Undo', onClick: this.undo }),
                   React.createElement(Button, { face: '/', onClick: this.operatorPress }),
                   React.createElement(Button, { face: '*', onClick: this.operatorPress })
                 ),
