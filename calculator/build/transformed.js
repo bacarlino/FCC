@@ -21802,13 +21802,13 @@ var Calculator = function (_React$Component3) {
           newPrevEntry = value;
         } else {
 
-          if (this.state.prevEntry.length >= 13) {
+          if (this.state.prevEntry.length >= 12) {
             newPrevEntry = this.state.prevEntry;
           } else {
             newPrevEntry = this.state.prevEntry + value;
           }
         }
-        if (this.state.equation.length >= 28) {
+        if (this.state.equation.length >= 26) {
           newEquation = this.state.equation;
         } else {
           newEquation = this.state.equation + value;
@@ -21841,16 +21841,27 @@ var Calculator = function (_React$Component3) {
     key: 'calculate',
     value: function calculate(value) {
       var result = this.state.equation ? eval(this.state.equation) : '0';
-      var newEquation;
+      var resultString = result.toString();
+      var power = resultString.length - 1;
+      var newEquation = '';
+      var newScreenValue;
 
       if (result !== '0') {
-        newEquation = this.state.equation + value + result;
+        if (resultString.length >= 12) {
+          result = result / Math.pow(10, power);
+          newScreenValue = result.toString().slice(0, 5) + ' x 10^' + power;
+          // newEquation = this.state.equation + value + newScreenValue;
+        } else {
+          newScreenValue = result;
+          // newEquation = this.state.equation + value + result;
+        }
       } else {
         newEquation = "";
+        newScreenValue = '0';
       }
 
       this.setState({
-        screenValue: result,
+        screenValue: newScreenValue,
         equation: newEquation,
         nextClear: true
       });
@@ -21881,21 +21892,27 @@ var Calculator = function (_React$Component3) {
   }, {
     key: 'undo',
     value: function undo() {
+      var newScreenValue,
+          newEquation = this.state.equation.slice(0, -1),
+          sliceIndex = this.state.equation.length - this.state.prevEntry.length;
+
       if (this.state.nextClear) {
-        this.clearScreen();
-        this.toggleClearFalse();
+
+        newScreenValue = prevEntry;
+        newEquation = this.state.equation.slice(0, sliceIndex);
+        // this.clearScreen();
+        // this.toggleClearFalse();
       }
 
       if (this.state.screenValue.length === 1) {
         newScreenValue = '0';
       } else {
-        var newScreenValue = this.state.screenValue.slice(0, -1);
+        newScreenValue = this.state.screenValue.slice(0, -1);
       }
-      var newEquation = this.state.equation.slice(0, -1);
 
       this.setState({
         screenValue: newScreenValue,
-        prevEntry: '',
+        // prevEntry: '',
         equation: newEquation
       });
     }
