@@ -21797,18 +21797,11 @@ var Calculator = function (_React$Component3) {
         newPrevEntry = value;
         this.toggleClearFalse();
       } else {
-
         if (re.test(this.state.prevEntry)) {
           newPrevEntry = value;
         } else {
-
-          if (this.state.prevEntry.length >= 12) {
-            newPrevEntry = this.state.prevEntry;
-          } else {
-            newPrevEntry = this.state.prevEntry + value;
-          }
+          newPrevEntry = this.state.prevEntry + value;
         }
-
         newEquation = this.state.equation + value;
       }
 
@@ -21879,14 +21872,14 @@ var Calculator = function (_React$Component3) {
   }, {
     key: 'undo',
     value: function undo() {
+      console.log('prevEntry', this.state.prevEntry);
       var newScreenValue = this.state.screenValue.toString().slice(0, -1),
           newPrevEntry = '',
           newEquation = this.state.equation.slice(0, -1),
           sliceIndex = this.state.equation.length - this.state.prevEntry.length;
 
       if (this.state.nextClear) {
-        // newScreenValue = this.state.prevEntry;
-        newPrevEntry = newScreenValue;
+        newScreenValue = this.state.prevEntry.slice(0, -1);
         newEquation = this.state.equation.slice(0, -1);
         this.toggleClearFalse();
       }
@@ -21902,7 +21895,6 @@ var Calculator = function (_React$Component3) {
           }
         }
       } else {
-        // newScreenValue = this.state.screenValue.toString().slice(0, -1);
         newPrevEntry = newScreenValue;
       }
 
