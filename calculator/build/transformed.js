@@ -21808,11 +21808,8 @@ var Calculator = function (_React$Component3) {
             newPrevEntry = this.state.prevEntry + value;
           }
         }
-        if (this.state.equation.length >= 26) {
-          newEquation = this.state.equation;
-        } else {
-          newEquation = this.state.equation + value;
-        }
+
+        newEquation = this.state.equation + value;
       }
 
       this.setState({
@@ -21827,7 +21824,7 @@ var Calculator = function (_React$Component3) {
       var newEquation = this.state.equation + value;
 
       if (this.state.nextClear) {
-        newEquation = value;
+        newEquation = this.state.screenValue + value;
         this.toggleClearFalse();
       }
 
@@ -21843,26 +21840,16 @@ var Calculator = function (_React$Component3) {
       var result = this.state.equation ? eval(this.state.equation) : '0';
       var resultString = result.toString();
       var power = resultString.length - 1;
-      var newEquation = '';
       var newScreenValue;
 
       if (result !== '0') {
-        if (resultString.length >= 12) {
-          result = result / Math.pow(10, power);
-          newScreenValue = result.toString().slice(0, 5) + ' x 10^' + power;
-          // newEquation = this.state.equation + value + newScreenValue;
-        } else {
-          newScreenValue = result;
-          // newEquation = this.state.equation + value + result;
-        }
+        newScreenValue = result;
       } else {
-        newEquation = "";
         newScreenValue = '0';
       }
 
       this.setState({
         screenValue: newScreenValue,
-        equation: newEquation,
         nextClear: true
       });
     }
@@ -21892,27 +21879,36 @@ var Calculator = function (_React$Component3) {
   }, {
     key: 'undo',
     value: function undo() {
-      var newScreenValue,
+      var newScreenValue = this.state.screenValue.toString().slice(0, -1),
+          newPrevEntry = '',
           newEquation = this.state.equation.slice(0, -1),
           sliceIndex = this.state.equation.length - this.state.prevEntry.length;
 
       if (this.state.nextClear) {
-
-        newScreenValue = prevEntry;
-        newEquation = this.state.equation.slice(0, sliceIndex);
-        // this.clearScreen();
-        // this.toggleClearFalse();
+        // newScreenValue = this.state.prevEntry;
+        newPrevEntry = newScreenValue;
+        newEquation = this.state.equation.slice(0, -1);
+        this.toggleClearFalse();
       }
 
       if (this.state.screenValue.length === 1) {
-        newScreenValue = '0';
+        if (this.state.equation.length === 1) {
+          newScreenValue = '0';
+        } else {
+          if (/[-+/*]/.test(this.state.equation.charAt(this.state.equation.length - 2))) {
+            newScreenValue = this.state.equation.charAt(this.state.equation.length - 2);
+          } else {
+            newScreenValue = this.state.equation.slice(0, -1);
+          }
+        }
       } else {
-        newScreenValue = this.state.screenValue.slice(0, -1);
+        // newScreenValue = this.state.screenValue.toString().slice(0, -1);
+        newPrevEntry = newScreenValue;
       }
 
       this.setState({
         screenValue: newScreenValue,
-        // prevEntry: '',
+        prevEntry: newPrevEntry,
         equation: newEquation
       });
     }
@@ -21929,62 +21925,66 @@ var Calculator = function (_React$Component3) {
             'div',
             { className: 'col-md-offset-3 col-md-6' },
             React.createElement(
-              'table',
-              { id: 'calc-body' },
+              'div',
+              { id: 'calc-shell' },
               React.createElement(
-                'tbody',
-                null,
+                'table',
+                { id: 'calc-body' },
                 React.createElement(
-                  'tr',
+                  'tbody',
                   null,
                   React.createElement(
-                    'td',
-                    { colSpan: '4' },
-                    React.createElement(Display, { total: this.state.screenValue,
-                      equation: this.state.equation,
-                      clear: this.state.nextClear,
-                      callback1: this.clearScreen,
-                      callback2: this.toggleClearFalse
-                    })
+                    'tr',
+                    null,
+                    React.createElement(
+                      'td',
+                      { colSpan: '4' },
+                      React.createElement(Display, { total: this.state.screenValue,
+                        equation: this.state.equation,
+                        clear: this.state.nextClear,
+                        callback1: this.clearScreen,
+                        callback2: this.toggleClearFalse
+                      })
+                    )
+                  ),
+                  React.createElement(
+                    'tr',
+                    null,
+                    React.createElement(Button, { face: 'AC', onClick: this.clearScreen }),
+                    React.createElement(Button, { face: 'Undo', onClick: this.undo }),
+                    React.createElement(Button, { face: '/', onClick: this.operatorPress }),
+                    React.createElement(Button, { face: '*', onClick: this.operatorPress })
+                  ),
+                  React.createElement(
+                    'tr',
+                    null,
+                    React.createElement(Button, { face: '7', onClick: this.numberPress }),
+                    React.createElement(Button, { face: '8', onClick: this.numberPress }),
+                    React.createElement(Button, { face: '9', onClick: this.numberPress }),
+                    React.createElement(Button, { face: '-', onClick: this.operatorPress })
+                  ),
+                  React.createElement(
+                    'tr',
+                    null,
+                    React.createElement(Button, { face: '4', onClick: this.numberPress }),
+                    React.createElement(Button, { face: '5', onClick: this.numberPress }),
+                    React.createElement(Button, { face: '6', onClick: this.numberPress }),
+                    React.createElement(Button, { face: '+', onClick: this.operatorPress })
+                  ),
+                  React.createElement(
+                    'tr',
+                    null,
+                    React.createElement(Button, { face: '1', onClick: this.numberPress }),
+                    React.createElement(Button, { face: '2', onClick: this.numberPress }),
+                    React.createElement(Button, { face: '3', onClick: this.numberPress }),
+                    React.createElement(Button, { face: '=', rowspan: '2', onClick: this.calculate })
+                  ),
+                  React.createElement(
+                    'tr',
+                    null,
+                    React.createElement(Button, { colspan: '2', face: '0', onClick: this.numberPress }),
+                    React.createElement(Button, { face: '.', onClick: this.numberPress })
                   )
-                ),
-                React.createElement(
-                  'tr',
-                  null,
-                  React.createElement(Button, { face: 'AC', onClick: this.clearScreen }),
-                  React.createElement(Button, { face: 'Undo', onClick: this.undo }),
-                  React.createElement(Button, { face: '/', onClick: this.operatorPress }),
-                  React.createElement(Button, { face: '*', onClick: this.operatorPress })
-                ),
-                React.createElement(
-                  'tr',
-                  null,
-                  React.createElement(Button, { face: '7', onClick: this.numberPress }),
-                  React.createElement(Button, { face: '8', onClick: this.numberPress }),
-                  React.createElement(Button, { face: '9', onClick: this.numberPress }),
-                  React.createElement(Button, { face: '-', onClick: this.operatorPress })
-                ),
-                React.createElement(
-                  'tr',
-                  null,
-                  React.createElement(Button, { face: '4', onClick: this.numberPress }),
-                  React.createElement(Button, { face: '5', onClick: this.numberPress }),
-                  React.createElement(Button, { face: '6', onClick: this.numberPress }),
-                  React.createElement(Button, { face: '+', onClick: this.operatorPress })
-                ),
-                React.createElement(
-                  'tr',
-                  null,
-                  React.createElement(Button, { face: '1', onClick: this.numberPress }),
-                  React.createElement(Button, { face: '2', onClick: this.numberPress }),
-                  React.createElement(Button, { face: '3', onClick: this.numberPress }),
-                  React.createElement(Button, { face: '=', rowspan: '2', onClick: this.calculate })
-                ),
-                React.createElement(
-                  'tr',
-                  null,
-                  React.createElement(Button, { colspan: '2', face: '0', onClick: this.numberPress }),
-                  React.createElement(Button, { face: '.', onClick: this.numberPress })
                 )
               )
             )
