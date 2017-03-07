@@ -21706,7 +21706,6 @@ var Display = function (_React$Component) {
   _createClass(Display, [{
     key: 'render',
     value: function render() {
-      console.log('rendering Display');
       return React.createElement(
         'div',
         { id: 'calc-display' },
@@ -21714,11 +21713,6 @@ var Display = function (_React$Component) {
           'div',
           { id: 'top-disp' },
           this.props.total
-        ),
-        React.createElement(
-          'div',
-          { id: 'bottom-disp' },
-          this.props.equation
         )
       );
     }
@@ -21771,7 +21765,6 @@ var Calculator = function (_React$Component3) {
     _this3.state = {
       screenValue: '0',
       equation: '',
-      prevEntry: '',
       nextClear: false
     };
 
@@ -21780,24 +21773,38 @@ var Calculator = function (_React$Component3) {
     _this3.calculate = _this3.calculate.bind(_this3);
     _this3.clearScreen = _this3.clearScreen.bind(_this3);
     _this3.undo = _this3.undo.bind(_this3);
-    _this3.toggleClearTrue = _this3.toggleClearTrue.bind(_this3);
     _this3.toggleClearFalse = _this3.toggleClearFalse.bind(_this3);
     return _this3;
   }
 
   _createClass(Calculator, [{
+    key: 'clearScreen',
+    value: function clearScreen() {
+      this.setState({
+        screenValue: 0,
+        equation: '',
+        prevEntry: ''
+      });
+    }
+  }, {
+    key: 'toggleClearFalse',
+    value: function toggleClearFalse() {
+      this.setState({
+        nextClear: false
+      });
+    }
+  }, {
     key: 'numberPress',
     value: function numberPress(value) {
-      var re = /[-+*/]/;
-      var newEquation = 'Error';
-      var newPrevEntry = 'Error';
+      var newEquation, newPrevEntry;
 
       if (this.state.nextClear) {
         newEquation = value;
         newPrevEntry = value;
         this.toggleClearFalse();
       } else {
-        if (re.test(this.state.prevEntry)) {
+
+        if (/[-+*/]/.test(this.state.prevEntry)) {
           newPrevEntry = value;
         } else {
           newPrevEntry = this.state.prevEntry + value;
@@ -21806,7 +21813,7 @@ var Calculator = function (_React$Component3) {
       }
 
       this.setState({
-        screenValue: newPrevEntry,
+        screenValue: newEquation,
         equation: newEquation,
         prevEntry: newPrevEntry
       });
@@ -21822,7 +21829,7 @@ var Calculator = function (_React$Component3) {
       }
 
       this.setState({
-        screenValue: value,
+        screenValue: newEquation,
         equation: newEquation,
         prevEntry: value
       });
@@ -21831,8 +21838,6 @@ var Calculator = function (_React$Component3) {
     key: 'calculate',
     value: function calculate(value) {
       var result = this.state.equation ? eval(this.state.equation) : '0';
-      var resultString = result.toString();
-      var power = resultString.length - 1;
       var newScreenValue;
 
       if (result !== '0') {
@@ -21847,60 +21852,14 @@ var Calculator = function (_React$Component3) {
       });
     }
   }, {
-    key: 'clearScreen',
-    value: function clearScreen() {
-      this.setState({
-        screenValue: 0,
-        equation: '',
-        prevEntry: []
-      });
-    }
-  }, {
-    key: 'toggleClearTrue',
-    value: function toggleClearTrue() {
-      this.setState({
-        nextClear: true
-      });
-    }
-  }, {
-    key: 'toggleClearFalse',
-    value: function toggleClearFalse() {
-      this.setState({
-        nextClear: false
-      });
-    }
-  }, {
     key: 'undo',
     value: function undo() {
-      console.log('prevEntry', this.state.prevEntry);
-      var newScreenValue = this.state.screenValue.toString().slice(0, -1),
-          newPrevEntry = '',
-          newEquation = this.state.equation.slice(0, -1),
-          sliceIndex = this.state.equation.length - this.state.prevEntry.length;
-
-      if (this.state.nextClear) {
-        newScreenValue = this.state.prevEntry.slice(0, -1);
-        newEquation = this.state.equation.slice(0, -1);
-        this.toggleClearFalse();
-      }
-
-      if (this.state.screenValue.length === 1) {
-        if (this.state.equation.length === 1) {
-          newScreenValue = '0';
-        } else {
-          if (/[-+/*]/.test(this.state.equation.charAt(this.state.equation.length - 2))) {
-            newScreenValue = this.state.equation.charAt(this.state.equation.length - 2);
-          } else {
-            newScreenValue = this.state.equation.slice(0, -1);
-          }
-        }
-      } else {
-        newPrevEntry = newScreenValue;
-      }
+      var newScreenValue,
+          newEquation = this.state.equation.slice(0, -1);
 
       this.setState({
-        screenValue: newScreenValue,
-        prevEntry: newPrevEntry,
+        screenValue: newEquation,
+        prevEntry: newScreenValue,
         equation: newEquation
       });
     }
@@ -21932,11 +21891,7 @@ var Calculator = function (_React$Component3) {
                       'td',
                       { colSpan: '4' },
                       React.createElement(Display, { total: this.state.screenValue,
-                        equation: this.state.equation,
-                        clear: this.state.nextClear,
-                        callback1: this.clearScreen,
-                        callback2: this.toggleClearFalse
-                      })
+                        equation: this.state.equation })
                     )
                   ),
                   React.createElement(
