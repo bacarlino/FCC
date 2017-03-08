@@ -49,8 +49,7 @@ class Calculator extends React.Component {
   clearScreen() {
     this.setState({
       screenValue: 0,
-      equation: '',
-      prevEntry: ''
+      equation: ''
     });
   }
 
@@ -61,30 +60,21 @@ class Calculator extends React.Component {
   }
 
   numberPress(value) {
-    var newEquation,
-        newPrevEntry;
+    var newEquation;
 
     if (this.state.nextClear) {
       newEquation = value;
-      newPrevEntry = value;
       this.toggleClearFalse();
-
     } else {
-
-        if (/[-+*/]/.test(this.state.prevEntry)) {
-          newPrevEntry = value;
-        } else {
-            newPrevEntry = this.state.prevEntry + value;
-          }
-          newEquation = this.state.equation + value
-        }
+       newEquation = this.state.equation + value
+    }
 
     this.setState({
       screenValue: newEquation,
-      equation: newEquation,
-      prevEntry: newPrevEntry
+      equation: newEquation
     });
   }
+
 
   operatorPress(value) {
     var newEquation = this.state.equation + value;
@@ -96,14 +86,14 @@ class Calculator extends React.Component {
 
     this.setState({
       screenValue: newEquation,
-      equation: newEquation,
-      prevEntry: value
+      equation: newEquation
     });
   }
 
+
   calculate(value) {
-    var result = this.state.equation ? eval(this.state.equation): '0';
-    var newScreenValue;
+    var result = this.state.equation ? eval(this.state.equation): '0',
+        newScreenValue;
 
     if (result !== '0') {
         newScreenValue = result;
@@ -119,11 +109,18 @@ class Calculator extends React.Component {
 
   undo() {
     var newScreenValue,
-        newEquation = this.state.equation.slice(0, -1);
+        newEquation = this.state.equation;
+
+    if (this.state.nextClear) {
+      this.toggleClearFalse();
+    } else {
+      newEquation = newEquation.slice(0, -1);
+    }
+
+    newScreenValue = newEquation.length > 0 ? newEquation: '0';
 
     this.setState({
-      screenValue: newEquation,
-      prevEntry: newScreenValue,
+      screenValue: newScreenValue,
       equation: newEquation
     });
   }
@@ -143,8 +140,8 @@ class Calculator extends React.Component {
                     </td>
                   </tr>
                   <tr>
-                    <Button face="AC" onClick={this.clearScreen} />
-                    <Button face="Undo" onClick={this.undo} />
+                    <Button face="C" onClick={this.clearScreen} />
+                    <Button face="⤺" onClick={this.undo} />
                     <Button face="/" onClick={this.operatorPress} />
                     <Button face="*" onClick={this.operatorPress} />
                   </tr>
