@@ -21740,8 +21740,7 @@ var Button = function (_React$Component2) {
     value: function render() {
       return React.createElement(
         'td',
-        { rowSpan: this.props.rowspan,
-          colSpan: this.props.colspan },
+        { rowSpan: this.props.rowspan, colSpan: this.props.colspan },
         React.createElement(
           'button',
           { onClick: this.handleClick.bind(this) },
@@ -21780,9 +21779,8 @@ var Calculator = function (_React$Component3) {
   _createClass(Calculator, [{
     key: 'clearScreen',
     value: function clearScreen() {
-      console.log("clearSceen");
       this.setState({
-        screenValue: 0,
+        screenValue: '0',
         equation: ''
       });
     }
@@ -21816,7 +21814,13 @@ var Calculator = function (_React$Component3) {
       var newEquation = this.state.equation + value;
 
       if (this.state.nextClear) {
-        newEquation = this.state.screenValue + value;
+
+        if (this.state.screenValue === 'Error') {
+          newEquation = value;
+        } else {
+          newEquation = this.state.screenValue + value;
+        }
+
         this.toggleClearFalse();
       }
 
@@ -21828,19 +21832,12 @@ var Calculator = function (_React$Component3) {
   }, {
     key: 'calculate',
     value: function calculate(value) {
+      var newScreenValue;
 
       try {
-        var result = this.state.equation ? eval(this.state.equation) : '0',
-            newScreenValue;
-      } catch (e) {
+        newScreenValue = eval(this.state.equation);
+      } catch (error) {
         newScreenValue = "Error";
-        this.clearScreen();
-      }
-      console.log(result);
-      if (result !== '0') {
-        newScreenValue = result;
-      } else {
-        newScreenValue = '0';
       }
 
       this.setState({

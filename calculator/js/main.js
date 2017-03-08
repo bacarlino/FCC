@@ -19,8 +19,7 @@ class Button extends React.Component {
 
   render() {
     return (
-      <td rowSpan={this.props.rowspan}
-          colSpan={this.props.colspan}>
+      <td rowSpan={this.props.rowspan} colSpan={this.props.colspan}>
           <button onClick={this.handleClick.bind(this)}>{this.props.face}</button>
       </td>
     );
@@ -47,9 +46,8 @@ class Calculator extends React.Component {
   }
 
   clearScreen() {
-    console.log("clearSceen");
     this.setState({
-      screenValue: 0,
+      screenValue: '0',
       equation: ''
     });
   }
@@ -81,7 +79,13 @@ class Calculator extends React.Component {
     var newEquation = this.state.equation + value;
 
     if(this.state.nextClear) {
+
+      if (this.state.screenValue === 'Error') {
+        newEquation = value;
+      } else {
       newEquation = this.state.screenValue + value;
+      }
+
       this.toggleClearFalse();
     }
 
@@ -91,21 +95,13 @@ class Calculator extends React.Component {
     });
   }
 
-
   calculate(value) {
+    var newScreenValue;
 
     try {
-    var result = this.state.equation ? eval(this.state.equation): '0',
-        newScreenValue;
-    } catch(e) {
+      newScreenValue = eval(this.state.equation);
+    } catch(error) {
       newScreenValue = "Error";
-      this.clearScreen();
-    }
-    console.log(result);
-    if (result !== '0') {
-        newScreenValue = result;
-    } else {
-      newScreenValue = '0';
     }
 
     this.setState({
