@@ -47,6 +47,7 @@ class Calculator extends React.Component {
   }
 
   clearScreen() {
+    console.log("clearSceen");
     this.setState({
       screenValue: 0,
       equation: ''
@@ -92,9 +93,15 @@ class Calculator extends React.Component {
 
 
   calculate(value) {
+
+    try {
     var result = this.state.equation ? eval(this.state.equation): '0',
         newScreenValue;
-
+    } catch(e) {
+      newScreenValue = "Error";
+      this.clearScreen();
+    }
+    console.log(result);
     if (result !== '0') {
         newScreenValue = result;
     } else {
@@ -141,7 +148,7 @@ class Calculator extends React.Component {
                   </tr>
                   <tr>
                     <Button face="C" onClick={this.clearScreen} />
-                    <Button face="⤺" onClick={this.undo} />
+                    <Button face="&#8630;" onClick={this.undo} />
                     <Button face="/" onClick={this.operatorPress} />
                     <Button face="*" onClick={this.operatorPress} />
                   </tr>

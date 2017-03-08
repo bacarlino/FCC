@@ -21780,6 +21780,7 @@ var Calculator = function (_React$Component3) {
   _createClass(Calculator, [{
     key: 'clearScreen',
     value: function clearScreen() {
+      console.log("clearSceen");
       this.setState({
         screenValue: 0,
         equation: ''
@@ -21827,9 +21828,15 @@ var Calculator = function (_React$Component3) {
   }, {
     key: 'calculate',
     value: function calculate(value) {
-      var result = this.state.equation ? eval(this.state.equation) : '0',
-          newScreenValue;
 
+      try {
+        var result = this.state.equation ? eval(this.state.equation) : '0',
+            newScreenValue;
+      } catch (e) {
+        newScreenValue = "Error";
+        this.clearScreen();
+      }
+      console.log(result);
       if (result !== '0') {
         newScreenValue = result;
       } else {
@@ -21895,7 +21902,7 @@ var Calculator = function (_React$Component3) {
                     'tr',
                     null,
                     React.createElement(Button, { face: 'C', onClick: this.clearScreen }),
-                    React.createElement(Button, { face: '\u293A', onClick: this.undo }),
+                    React.createElement(Button, { face: '\u21B6', onClick: this.undo }),
                     React.createElement(Button, { face: '/', onClick: this.operatorPress }),
                     React.createElement(Button, { face: '*', onClick: this.operatorPress })
                   ),
