@@ -1,4 +1,3 @@
 # FCC_CALCULATOR
 
-
-*This entry is just a test from an iOS git client.
+My first attempt with React.
