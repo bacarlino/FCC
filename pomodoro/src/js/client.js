@@ -45,6 +45,7 @@ class Clock extends React.Component {
     this.decreaseSessionTime = this.decreaseSessionTime.bind(this);
     this.updateMainTime = this.updateMainTime.bind(this);
     this.toggleStateIs = this.toggleStateIs.bind(this);
+    this.runTimer = this.runTimer.bind(this);
   }
 
   increaseBreakTime() {
@@ -117,8 +118,25 @@ class Clock extends React.Component {
   }
 
   runTimer() {
-    console.log("runTimer");
+    var newMin = this.state.min,
+        newSec = this.state.sec,
+        newMainTime;
+
+    if (this.state.sec === 0) {
+      newMin = this.state.min - 1;
+      newSec = 59;
+    } else {
+      newSec = this.state.sec - 1;
+    }
+    newMainTime = newMin.toString() + ":" + newSec.toString();
+
+    this.setState({
+      mainTime: newMainTime,
+      min: newMin,
+      sec: newSec
+    });
   }
+
 
   clearTimer() {
   }
