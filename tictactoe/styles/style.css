@@ -1,0 +1,70 @@
+/** {border: solid red}*/
+
+#game-board {
+}
+
+
+.board-row {
+  display: table-row;
+}
+
+.board-box {
+  background-color: gray;
+  border: black solid 1px;
+  width: 100px;
+  height: 100px;
+  font-size: 65px;
+  text-align: center;
+  display: table-cell;
+}
+
+#prompt {
+  text-align: center;
+  background-color: dodgerblue;
+  display: none;
+  font-size: 30px;
+  width: 300px;
+}
+
+#selectX, #selectO {
+  background-color: lightblue;
+  width: 75px;
+  height: 75px;
+
+}
+
+#one {
+
+}
+
+#two {
+
+}
+
+#three {
+
+}
+
+#four {
+
+}
+
+#five {
+
+}
+
+#six {
+
+}
+
+#seven {
+
+}
+
+#eight {
+
+}
+
+#nine {
+
+}
