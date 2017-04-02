@@ -18,20 +18,17 @@ var tictactoe = (function() {
         nine: ['rowThree', 'colThree', 'diagOne']
       };
 
-
-  //cache DOM
+  // cache DOM
   $prompt = $('#prompt');
 
-
-  //bind events
+  // bind events
   $('.board-box').click(handleBoxClick);
 
+  // kickoff app
   newGame();
 
   function toggleLock(state) {
-
     lock = !lock;
-    console.log('toggle lock to', lock);
   }
 
   function togglePlayersTurn() {
@@ -79,9 +76,6 @@ var tictactoe = (function() {
     if (winners[score][symbol] === 3) {
       winGame(members);
     }
-    // else if (boxesFilled === 9) {
-    //   drawGame(members);
-    // }
   }
 
   function runAI() {
@@ -107,7 +101,6 @@ var tictactoe = (function() {
       multiplayer = true;
       $prompt.hide();
       toggleLock();
-
     });
   }
 
@@ -159,5 +152,4 @@ var tictactoe = (function() {
       $('#' + item).css('background-color', color)
     });
   }
-
 })();
