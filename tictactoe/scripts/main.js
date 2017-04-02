@@ -1,6 +1,9 @@
 var tictactoe = (function() {
   var lock = false,
+      multiplayer = false,
+      playersTurn = true,
       boxesFilled = 0,
+      boxesRemain = ['one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine'],
       symbol = 'X',
       winners = {},
       membership = {
@@ -29,16 +32,28 @@ var tictactoe = (function() {
     lock = !lock;
   }
 
+  function togglePlayersTurn() {
+    playersTurn = !playersTurn;
+  }
+
   function handleBoxClick() {
     $box = $(this);
-    scoreList = membership[$box.attr('id')];
+    $id = $box.attr('id');
+    scoreList = membership[$id];
 
     if (!lock) {
       if ($box.text() === "") {
         $box.text(symbol);
         ++boxesFilled;
+        boxesRemain.splice(boxesRemain.indexOf($id), 1);
         scoreList.forEach(registerScore);
         changeSymbol();
+        if (!multiplayer) {
+          togglePlayersTurn();
+          if (!playersTurn) {
+            runAI();
+          }
+        }
       }
     }
   }
@@ -63,10 +78,36 @@ var tictactoe = (function() {
     }
   }
 
+  function runAI() {
+    console.log('runAI');
+    var boxID = boxesRemain[Math.floor(Math.random() * boxesRemain.length)];
+    $('#' + boxID).trigger('click');
+  }
+
 
   function newGame(boxList) {
     toggleLock();
-    $prompt.html('<button id="selectX">X</button> or <button id="selectO">O</button>?')
+    choosePlayers();
+  }
+
+  function choosePlayers() {
+    $prompt.html('<button id="select1">1</button> or <button id="select2">2</button> player?')
+           .fadeIn();
+    $('#select1').one('click', function() {
+      multiplayer = false;
+      $prompt.hide();
+      chooseSymbol();
+    });
+    $('#select2').one('click', function() {
+      multiplayer = true;
+      $prompt.hide();
+      toggleLock();
+
+    });
+  }
+
+  function chooseSymbol() {
+    $prompt.html('<button id="selectX">X</button> or <button id="selectO">O</button>')
            .fadeIn();
     $('#selectX').one('click', function() {
       symbol = 'X';
@@ -82,8 +123,8 @@ var tictactoe = (function() {
 
   function winGame(boxList) {
     toggleLock();
-    changeBGColorById(boxList, 'green');
-    $prompt.text('WINNER! CLICK HERE TO RESTART!')
+    changeBGColorById(boxList, 'dodgerblue');
+    $prompt.text(symbol + ' WINS! CLICK TO RESTART')
                     .one('click',{list: boxList}, clearGame)
                     .fadeIn();
   }
@@ -94,13 +135,16 @@ var tictactoe = (function() {
                     .one('click',{list: boxList}, clearGame)
                     .fadeIn();
   }
+
   function clearGame(list) {
     $('.board-box').text("");
     $prompt.hide().text("");
-    changeBGColorById(list.data.list, 'gray');
+    changeBGColorById(list.data.list, "");
     boxesFilled = 0;
     symbol = 'X';
     winners = {};
+    playersTurn = true;
+    boxesRemain = ['one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine'];
     toggleLock();
     newGame();
   }
