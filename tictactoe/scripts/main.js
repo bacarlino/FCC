@@ -30,7 +30,6 @@ var tictactoe = (function() {
 
   function toggleLock(state) {
     lock = !lock;
-    console.log('toggle lock', lock);
 
   }
 
@@ -49,7 +48,6 @@ var tictactoe = (function() {
         ++boxesFilled;
         boxesRemain.splice(boxesRemain.indexOf($id), 1);
         scoreList.forEach(registerScore);
-        console.log(boxesFilled);
         if (boxesFilled === 9) {
           drawGame();
         }
@@ -73,7 +71,6 @@ var tictactoe = (function() {
   }
 
   function registerScore(score) {
-    console.log('register score');
     winners[score] = winners[score] || {X: 0, O: 0, members: []};
     ++winners[score][symbol];
     var members = winners[score]['members'];
@@ -87,7 +84,6 @@ var tictactoe = (function() {
   }
 
   function runAI() {
-    console.log('runAI');
     var boxID = boxesRemain[Math.floor(Math.random() * boxesRemain.length)];
     $('#' + boxID).trigger('click');
   }
@@ -130,7 +126,6 @@ var tictactoe = (function() {
   }
 
   function winGame(boxList) {
-    console.log('win game');
     toggleLock();
     changeBGColorById(boxList, 'dodgerblue');
     $prompt.text(symbol + ' WINS! CLICK TO RESTART')
@@ -139,7 +134,6 @@ var tictactoe = (function() {
   }
 
   function drawGame(boxList) {
-    console.log('draw game');
     toggleLock();
     $prompt.text('DRAW... CLICK HERE TO RESTART!')
                     .one('click',{list: boxList}, clearGame)
@@ -147,7 +141,6 @@ var tictactoe = (function() {
   }
 
   function clearGame(list) {
-    console.log('clear game');
     $('.board-box').text("").css('background-color', '');
     $prompt.hide().text("");
     boxesFilled = 0;
