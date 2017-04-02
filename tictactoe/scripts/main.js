@@ -29,8 +29,9 @@ var tictactoe = (function() {
   newGame();
 
   function toggleLock(state) {
-    lock = !lock;
 
+    lock = !lock;
+    console.log('toggle lock to', lock);
   }
 
   function togglePlayersTurn() {
