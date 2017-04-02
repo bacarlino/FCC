@@ -30,6 +30,8 @@ var tictactoe = (function() {
 
   function toggleLock(state) {
     lock = !lock;
+    console.log('toggle lock', lock);
+
   }
 
   function togglePlayersTurn() {
@@ -47,6 +49,10 @@ var tictactoe = (function() {
         ++boxesFilled;
         boxesRemain.splice(boxesRemain.indexOf($id), 1);
         scoreList.forEach(registerScore);
+        console.log(boxesFilled);
+        if (boxesFilled === 9) {
+          drawGame();
+        }
         changeSymbol();
         if (!multiplayer) {
           togglePlayersTurn();
@@ -67,15 +73,17 @@ var tictactoe = (function() {
   }
 
   function registerScore(score) {
+    console.log('register score');
     winners[score] = winners[score] || {X: 0, O: 0, members: []};
     ++winners[score][symbol];
     var members = winners[score]['members'];
     members.push($box.attr('id'));
     if (winners[score][symbol] === 3) {
       winGame(members);
-    } else if (boxesFilled === 9) {
-      drawGame(members);
     }
+    // else if (boxesFilled === 9) {
+    //   drawGame(members);
+    // }
   }
 
   function runAI() {
@@ -122,6 +130,7 @@ var tictactoe = (function() {
   }
 
   function winGame(boxList) {
+    console.log('win game');
     toggleLock();
     changeBGColorById(boxList, 'dodgerblue');
     $prompt.text(symbol + ' WINS! CLICK TO RESTART')
@@ -130,6 +139,7 @@ var tictactoe = (function() {
   }
 
   function drawGame(boxList) {
+    console.log('draw game');
     toggleLock();
     $prompt.text('DRAW... CLICK HERE TO RESTART!')
                     .one('click',{list: boxList}, clearGame)
@@ -137,14 +147,15 @@ var tictactoe = (function() {
   }
 
   function clearGame(list) {
-    $('.board-box').text("");
+    console.log('clear game');
+    $('.board-box').text("").css('background-color', '');
     $prompt.hide().text("");
-    changeBGColorById(list.data.list, "");
     boxesFilled = 0;
     symbol = 'X';
     winners = {};
     playersTurn = true;
     boxesRemain = ['one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine'];
+    multiplayer = false;
     toggleLock();
     newGame();
   }
