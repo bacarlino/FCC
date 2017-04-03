@@ -5,8 +5,9 @@ var tictactoe = (function() {
       boxesFilled = 0,
       boxesRemain = ['one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine'],
       symbol = 'X',
-      winState = false,
+      state = ''
       winners = {},
+      winningMembers = [],
       membership = {
         one: ['rowOne', 'colOne', 'diagOne'],
         two: ['rowOne', 'colTwo'],
@@ -47,7 +48,10 @@ var tictactoe = (function() {
         ++boxesFilled;
         boxesRemain.splice(boxesRemain.indexOf($id), 1);
         scoreList.forEach(registerScore);
-        if (boxesFilled === 9 && winGame === false) {
+        if (state === 'win') {
+          winGame(winningMembers);
+        }
+        if (boxesFilled === 9 && state != 'win') {
           drawGame();
         }
         changeSymbol();
@@ -75,8 +79,9 @@ var tictactoe = (function() {
     var members = winners[score]['members'];
     members.push($box.attr('id'));
     if (winners[score][symbol] === 3) {
-      winState = true;
-      winGame(members);
+      state = 'win';
+      winningMembers = members;
+      // winGame(members);
     }
   }
 
@@ -147,7 +152,7 @@ var tictactoe = (function() {
     playersTurn = true;
     boxesRemain = ['one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine'];
     multiplayer = false;
-    winState = false,
+    state = '',
     toggleLock();
     newGame();
   }
