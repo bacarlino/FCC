@@ -144,15 +144,19 @@ class Clock extends React.Component {
   render() {
     return (
       <div>
-        <h1>FCC POMODORO CLOCK</h1>
-        <Button face="-" onClick={this.decreaseBreakTime} />
-        <Timer face={this.state.breakTime} />
-        <Button face="+" onClick={this.increaseBreakTime} />
-        <Button face="-" onClick={this.decreaseSessionTime} />
-        <Timer face={this.state.sessionTime} />
-        <Button face="+" onClick={this.increaseSessionTime} />
-        <br />
-        <div>
+        <div id="header">
+          <h1>FCC POMODORO CLOCK</h1>
+        </div>
+        <div id="buttons">
+          <Button face="-" onClick={this.decreaseBreakTime} />
+          <Timer face={this.state.breakTime} />
+          <Button face="+" onClick={this.increaseBreakTime} />
+          <Button face="-" onClick={this.decreaseSessionTime} />
+          <Timer face={this.state.sessionTime} />
+          <Button face="+" onClick={this.increaseSessionTime} />
+        </div>
+
+        <div id="main-display">
           <Timer face={this.state.mainTime} onClick={this.toggleStateIs} />
         </div>
       </div>
