@@ -18,8 +18,8 @@ module.exports = {
       },
     ]
   },
-  devServer: {
-    contentBase: buildPath,
-    inline: true
-  }
+  // devServer: {
+  //   contentBase: buildPath,
+  //   inline: true
+  // }
 };

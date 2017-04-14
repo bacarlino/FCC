@@ -1,6 +1,8 @@
-var React = require('react');
-var ReactDOM = require('react-dom');
+import React from 'react';
+import ReactDOM from 'react-dom';
 
+// var React = require('react');
+// var ReactDOM = require('react-dom');
 
 class Button extends React.Component {
   handleClick() {
@@ -38,14 +40,6 @@ class Clock extends React.Component {
       min: 25,
       sec: 0
     };
-
-    this.increaseBreakTime = this.increaseBreakTime.bind(this);
-    this.decreaseBreakTime = this.decreaseBreakTime.bind(this);
-    this.increaseSessionTime = this.increaseSessionTime.bind(this);
-    this.decreaseSessionTime = this.decreaseSessionTime.bind(this);
-    this.updateMainTime = this.updateMainTime.bind(this);
-    this.toggleStateIs = this.toggleStateIs.bind(this);
-    this.runTimer = this.runTimer.bind(this);
   }
 
   increaseBreakTime() {
@@ -104,7 +98,7 @@ class Clock extends React.Component {
 
     if (this.state.stateIs === "stopped") {
       newState = "running";
-      this.timer = setInterval(this.runTimer, 1000);
+      this.timer = setInterval(this.runTimer.bind(this), 1000);
       console.log("this is", this);
     } else {
       newState = "stopped";
@@ -137,32 +131,24 @@ class Clock extends React.Component {
     });
   }
 
-
-  clearTimer() {
-  }
-
   render() {
     return (
       <div>
-        <div id="header">
-          <h1>FCC POMODORO CLOCK</h1>
-        </div>
-        <div id="buttons">
-          <Button face="-" onClick={this.decreaseBreakTime} />
-          <Timer face={this.state.breakTime} />
-          <Button face="+" onClick={this.increaseBreakTime} />
-          <Button face="-" onClick={this.decreaseSessionTime} />
-          <Timer face={this.state.sessionTime} />
-          <Button face="+" onClick={this.increaseSessionTime} />
-        </div>
-
-        <div id="main-display">
-          <Timer face={this.state.mainTime} onClick={this.toggleStateIs} />
+        {/* <h1>FCC POMODORO CLOCK</h1> */}
+        <Button face="-" onClick={this.decreaseBreakTime.bind(this)} />
+        <Timer face={this.state.breakTime} />
+        <Button face="+" onClick={this.increaseBreakTime.bind(this)} />
+        <Button face="-" onClick={this.decreaseSessionTime.bind(this)} />
+        <Timer face={this.state.sessionTime} />
+        <Button face="+" onClick={this.increaseSessionTime.bind(this)} />
+        <br />
+        <div>
+          <Timer face={this.state.mainTime} onClick={this.toggleStateIs.bind(this)} />
         </div>
       </div>
     );
   }
-}
+};
 
 ReactDOM.render(
   <Clock />,

@@ -48,6 +48,7 @@ var tictactoe = (function() {
         ++boxesFilled;
         boxesRemain.splice(boxesRemain.indexOf($id), 1);
         scoreList.forEach(registerScore);
+
         if (state === 'win') {
           winGame(winningMembers);
         }
@@ -152,7 +153,7 @@ var tictactoe = (function() {
     playersTurn = true;
     boxesRemain = ['one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine'];
     multiplayer = false;
-    state = '',
+    state = '';
     toggleLock();
     newGame();
   }
