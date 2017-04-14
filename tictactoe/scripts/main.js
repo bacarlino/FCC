@@ -5,7 +5,9 @@ var tictactoe = (function() {
       boxesFilled = 0,
       boxesRemain = ['one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine'],
       symbol = 'X',
+      state = '',
       winners = {},
+      winningMembers = [],
       membership = {
         one: ['rowOne', 'colOne', 'diagOne'],
         two: ['rowOne', 'colTwo'],
@@ -46,7 +48,11 @@ var tictactoe = (function() {
         ++boxesFilled;
         boxesRemain.splice(boxesRemain.indexOf($id), 1);
         scoreList.forEach(registerScore);
-        if (boxesFilled === 9) {
+
+        if (state === 'win') {
+          winGame(winningMembers);
+        }
+        if (boxesFilled === 9 && state != 'win') {
           drawGame();
         }
         changeSymbol();
@@ -74,10 +80,14 @@ var tictactoe = (function() {
     var members = winners[score]['members'];
     members.push($box.attr('id'));
     if (winners[score][symbol] === 3) {
-      winGame(members);
+      state = 'win';
+      winningMembers = members;
+      // winGame(members);
     }
   }
 
+
+  // For now, AI just chooses randomly
   function runAI() {
     var boxID = boxesRemain[Math.floor(Math.random() * boxesRemain.length)];
     $('#' + boxID).trigger('click');
@@ -143,6 +153,7 @@ var tictactoe = (function() {
     playersTurn = true;
     boxesRemain = ['one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine'];
     multiplayer = false;
+    state = '';
     toggleLock();
     newGame();
   }

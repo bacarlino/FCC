@@ -6,10 +6,11 @@ body {
   margin: auto;
   width: 300px;
   text-align: center;
+  padding-top: 50px;
 }
 
 #game-board > h2 {
-  padding-bottom: 25px;
+  padding-bottom: 50px;
 }
 
 .board-row {
@@ -26,13 +27,13 @@ body {
 }
 
 #prompt {
-  margin-top: 25px;
+  margin-top: 50px;
   text-align: center;
   background-color: gray;
   display: none;
   font-size: 30px;
   width: 300px;
-  padding: 10px;
+  padding: 20px;
   border-radius: 10px;
 }
 

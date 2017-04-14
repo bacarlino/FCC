@@ -4,7 +4,6 @@ import ReactDOM from 'react-dom';
 // var React = require('react');
 // var ReactDOM = require('react-dom');
 
-
 class Button extends React.Component {
   handleClick() {
     this.props.onClick();
@@ -132,7 +131,6 @@ class Clock extends React.Component {
     });
   }
 
-
   render() {
     return (
       <div>
@@ -146,11 +144,12 @@ class Clock extends React.Component {
         <br />
         <div>
           <Timer face={this.state.mainTime} onClick={this.toggleStateIs.bind(this)} />
+
         </div>
       </div>
     );
   }
-}
+};
 
 ReactDOM.render(
   <Clock />,
