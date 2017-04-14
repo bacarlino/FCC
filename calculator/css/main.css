@@ -1,0 +1,68 @@
+/** {
+  outline: solid red;
+}*/
+
+.test {
+  border: solid pink;
+}
+
+html,
+body,
+#app {
+  height: 100%;
+}
+
+body {
+  background-color: #202020;
+}
+
+#app {
+  display: table;
+  margin: auto;
+}
+
+#calc-app {
+  display: table-cell;
+  vertical-align: middle;
+}
+
+#calc-shell {
+  margin: auto;
+  background-color: #6992d3;
+  width: 300px;
+  border-radius: 30px;
+  padding: 20px;
+}
+
+#calc-body {
+  font-family: 'Audiowide', cursive;
+  margin: auto;
+}
+
+#calc-display {
+  width: 100%;
+  height: 75px;
+  border: solid black;
+  border-radius: 5px;
+  text-align: right;
+  padding: 5px;
+  overflow: auto;
+  background-color: silver;
+}
+
+#top-disp {
+  font-size: 2em;
+}
+
+td {
+  width: 60px;
+  height: 65px;
+  padding: 5px;
+}
+
+td > button {
+  width: 100%;
+  height: 100%;
+  border-radius: 10px;
+  font-size: 1.5em;
+}
