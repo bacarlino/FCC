@@ -6,24 +6,21 @@ import {
   Link
 } from 'react-router-dom';
 
-import Layout from "./pages/Layout";
-
 import Calculator from "./pages/Calculator";
+import Layout from "./pages/Layout";
+import Pomodoro from "./pages/Pomodoro";
+
+
 
 const app = document.getElementById('app');
 
-
-const BasicExample = () => (
+ReactDOM.render(
   <Router>
     <div>
-      <Route exact path="/" component={Layout} />
+      <Route path="/" component={Layout} />
+      <br />
       <Route path="/calculator" component={Calculator} />
+      <Route path="/pomodoro" component={Pomodoro} />
     </div>
-  </Router>
-)
-
-
-
-ReactDOM.render(
-  <BasicExample />,
+  </Router>,
   app);
