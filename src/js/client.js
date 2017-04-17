@@ -8,7 +8,7 @@ import {
 
 import Calculator from "./pages/Calculator";
 import Layout from "./pages/Layout";
-// import Pomodoro from "./pages/Pomodoro";
+import Pomodoro from "./pages/Pomodoro";
 
 
 
@@ -20,7 +20,7 @@ ReactDOM.render(
       <Route path="/" component={Layout} />
       <br />
       <Route path="/calculator" component={Calculator} />
-      {/* <Route path="/pomodoro" component={Pomodoro} /> */}
+      <Route path="/pomodoro" component={Pomodoro} />
     </div>
   </Router>,
   app);
