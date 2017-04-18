@@ -48,8 +48,8 @@ class Pomodoro extends React.Component {
     this.setState({
         breakTime: newTime
     });
-
   }
+
   decreaseBreakTime() {
     if (this.state.breakTime > 0) {
       var newTime = --this.state.breakTime;
@@ -68,7 +68,8 @@ class Pomodoro extends React.Component {
       this.updateMainTime(newTime);
     }
     this.setState({
-        sessionTime: newTime
+        sessionTime: newTime,
+        min: newTime
     });
   }
 
@@ -79,19 +80,21 @@ class Pomodoro extends React.Component {
         this.updateMainTime(newTime);
       }
       this.setState({
-          sessionTime: newTime
+          sessionTime: newTime,
+          min: newTime
       });
     }
   }
 
   updateMainTime(num) {
+    this.stopState();
     var newTime = num + ":00";
     this.setState({
       mainTime: newTime
     });
   }
 
-  toggleStateIs() {
+  toggleState() {
     var newState;
 
     if (this.state.stateIs === "stopped") {
@@ -104,8 +107,17 @@ class Pomodoro extends React.Component {
       console.log("this is", this);
     }
     console.log("Toggle state to", newState);
+
     this.setState({
       stateIs: newState
+    });
+  }
+
+  stopState() {
+    clearInterval(this.timer);
+    this.setState({
+      stateIs: "stopped",
+      sec: 0
     });
   }
 
@@ -132,7 +144,7 @@ class Pomodoro extends React.Component {
   render() {
     return (
       <div>
-        {/* <h1>FCC POMODORO CLOCK</h1> */}
+        <h1>FCC POMODORO CLOCK</h1>
         <Button face="-" onClick={this.decreaseBreakTime.bind(this)} />
         <Timer face={this.state.breakTime} />
         <Button face="+" onClick={this.increaseBreakTime.bind(this)} />
@@ -141,7 +153,7 @@ class Pomodoro extends React.Component {
         <Button face="+" onClick={this.increaseSessionTime.bind(this)} />
         <br />
         <div>
-          <Timer face={this.state.mainTime} onClick={this.toggleStateIs.bind(this)} />
+          <Timer face={this.state.mainTime} onClick={this.toggleState.bind(this)} />
         </div>
       </div>
     );

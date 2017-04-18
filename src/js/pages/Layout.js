@@ -10,6 +10,7 @@ export default class Layout extends React.Component {
         <Link to="/"><button>Home</button></Link>
         <Link to="calculator"><button>Calculator</button></Link>
         <Link to="pomodoro"><button>Pomodoro</button></Link>
+        <Link to="tictactoe"><button>TicTacToe</button></Link>
 
         <br />
       </div>

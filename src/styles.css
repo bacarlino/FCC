@@ -2,7 +2,7 @@
   outline: solid red;
 }*/
 
-.test {
+/*.test {
   border: solid pink;
 }
 
@@ -65,4 +65,94 @@ td > button {
   height: 100%;
   border-radius: 10px;
   font-size: 1.5em;
+}*/
+
+
+/* TicTacToe */
+
+body {
+  background-color: ivory;
+}
+
+#game-board {
+  margin: auto;
+  width: 300px;
+  text-align: center;
+  padding-top: 50px;
+}
+
+#game-board > h2 {
+  padding-bottom: 50px;
+}
+
+.board-row {
+  text-align: center;
+  display: table-row;
+}
+
+.board-box {
+  width: 100px;
+  height: 100px;
+  font-size: 65px;
+  text-align: center;
+  display: table-cell;
+}
+
+#prompt {
+  margin-top: 50px;
+  text-align: center;
+  background-color: gray;
+  display: none;
+  font-size: 30px;
+  width: 300px;
+  padding: 20px;
+  border-radius: 10px;
+}
+
+button {
+  background-color: lightgray;
+  width: 75px;
+  height: 75px;
+  border-radius: 10px;
+}
+
+#one {
+  border-right: solid 5px black;
+  border-bottom: solid 5px black;
+}
+
+#two {
+  border-right: solid 5px black;
+  border-bottom: solid 5px black;
+
+}
+
+#three {
+  border-bottom: solid 5px black;
+}
+
+#four {
+  border-right: solid 5px black;
+  border-bottom: solid 5px black;
+}
+
+#five {
+  border-right: solid 5px black;
+  border-bottom: solid 5px black;
+}
+
+#six {
+  border-bottom: solid 5px black;
+}
+
+#seven {
+  border-right: solid 5px black;
+}
+
+#eight {
+  border-right: solid 5px black;
+}
+
+#nine {
+
 }

@@ -9,6 +9,7 @@ import {
 import Calculator from "./pages/Calculator";
 import Layout from "./pages/Layout";
 import Pomodoro from "./pages/Pomodoro";
+import TicTacToe from "./pages/TicTacToe";
 
 
 
@@ -21,6 +22,7 @@ ReactDOM.render(
       <br />
       <Route path="/calculator" component={Calculator} />
       <Route path="/pomodoro" component={Pomodoro} />
+      <Route path="/tictactoe" component={TicTacToe} />
     </div>
   </Router>,
   app);
