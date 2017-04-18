@@ -17,9 +17,5 @@ module.exports = {
         loader: "babel-loader"
       },
     ]
-  },
-  // devServer: {
-  //   contentBase: buildPath,
-  //   inline: true
-  // }
+  }
 };
