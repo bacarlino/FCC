@@ -1,11 +1,39 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
+class TicTacToe extends React.Component {
+  componentDidMount() {
+    newGame();
+  }
+
+  render() {
+    console.log('rendering tictactoe');
+    return (
+      <div id="game-board">
+        <h2>FCC TIC-TAC-TOE</h2>
+        <div className="board-row">
+          <div id="one" className="board-box"></div>
+          <div id="two" className="board-box"></div>
+          <div id="three" className="board-box"></div>
+        </div>
+        <div className="board-row">
+          <div id="four" className="board-box"></div>
+          <div id="five" className="board-box"></div>
+          <div id="six" className="board-box"></div>
+        </div>
+        <div className="board-row">
+          <div id="seven" className="board-box"></div>
+          <div id="eight" className="board-box"></div>
+          <div id="nine" className="board-box"></div>
+        </div>
+        <div id="prompt"></div>
+      </div>
+    );
+  }
+}
 
 
-
-
-var tictactoe = (function() {
+// var tictactoe = (function() {
   var lock = false,
       multiplayer = false,
       playersTurn = true,
@@ -29,12 +57,12 @@ var tictactoe = (function() {
 
   // cache DOM
   var $prompt = $('#prompt');
-
+  console.log('$prompt saved as', $prompt);
   // bind events
   $('.board-box').click(handleBoxClick);
 
   // kickoff app
-  newGame();
+  // newGame();
 
   function toggleLock(state) {
     lock = !lock;
@@ -102,11 +130,13 @@ var tictactoe = (function() {
 
 
   function newGame(boxList) {
+    console.log('newGame function');
     toggleLock();
     choosePlayers();
   }
 
   function choosePlayers() {
+    console.log('choosePlayers function', $prompt);
     $prompt.html('<button id="select1">1</button> or <button id="select2">2</button> player?')
            .fadeIn();
     $('#select1').one('click', function() {
@@ -170,31 +200,9 @@ var tictactoe = (function() {
       $('#' + item).css('background-color', color)
     });
   }
-})();
-
-class TicTacToe extends React.Component {
-
-  render() {
-    return (
-      <div id="game-board">
-        <h2>FCC TIC-TAC-TOE</h2>
-        <div className="board-row">
-          <div id="one" className="board-box"></div>
-          <div id="two" className="board-box"></div>
-          <div id="three" className="board-box"></div>
-        </div>
-        <div className="board-row">
-          <div id="four" className="board-box"></div>
-          <div id="six" className="board-box"></div>
-        </div>
-        <div className="board-row">
-          <div id="seven" className="board-box"></div>
-          <div id="nine" className="board-box"></div>
-        </div>
-        <div id="prompt"></div>
-      </div>
-    );
-  }
-}
+//   return {
+//     newGame: newGame
+//   };
+// })();
 
 export default TicTacToe

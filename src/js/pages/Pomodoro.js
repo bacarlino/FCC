@@ -1,6 +1,13 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
+class Counter extends React.Component {
+  render() {
+    return (
+      <div className="counter-display">{this.props.face}</div>
+    );
+  }
+}
 
 class Button extends React.Component {
   handleClick() {
@@ -9,18 +16,20 @@ class Button extends React.Component {
 
   render() {
     return (
-          <button onClick={this.handleClick.bind(this)}>{this.props.face}</button>
+      <button className={this.props.name} onClick={this.handleClick.bind(this)}>{this.props.face}</button>
     );
   }
 }
 
-class Timer extends React.Component {
+class Display extends React.Component {
   handleClick() {
     this.props.onClick();
   }
   render() {
     return (
-      <span onClick={this.handleClick.bind(this)}>{this.props.face}</span>
+      <div>
+        <div className="display" onClick={this.handleClick.bind(this)}>{this.props.face}</div>
+      </div>
     );
   }
 }
@@ -30,8 +39,8 @@ class Pomodoro extends React.Component {
     super(props);
 
     this.state = {
-      mode: "session",
-      stateIs: "stopped",
+      mode: "Session",
+      timerIs: "stopped",
       sessionTime: 25,
       breakTime: 5,
       mainTime: "25:00",
@@ -42,119 +51,143 @@ class Pomodoro extends React.Component {
 
   increaseBreakTime() {
     var newTime = ++this.state.breakTime;
-    if (this.state.mode === "break") {
+    if (this.state.mode === "Break") {
+      this.stop();
       this.updateMainTime(newTime);
     }
-    this.setState({
-        breakTime: newTime
-    });
+    this.setState({breakTime: newTime});
   }
 
   decreaseBreakTime() {
     if (this.state.breakTime > 0) {
       var newTime = --this.state.breakTime;
-      if (this.state.mode === "break") {
+      if (this.state.mode === "Break") {
+        this.stop();
         this.updateMainTime(newTime);
       }
-      this.setState({
-          breakTime: newTime
-      });
+      this.setState({breakTime: newTime});
     }
   }
 
   increaseSessionTime() {
     var newTime = ++this.state.sessionTime;
-    if (this.state.mode === "session") {
+    if (this.state.mode === "Session") {
+      this.stop();
       this.updateMainTime(newTime);
     }
-    this.setState({
-        sessionTime: newTime,
-        min: newTime
-    });
+    this.setState({sessionTime: newTime});
   }
 
   decreaseSessionTime() {
     if (this.state.sessionTime > 0) {
       var newTime = --this.state.sessionTime;
-      if (this.state.mode === "session") {
+      if (this.state.mode === "Session") {
+        this.stop();
         this.updateMainTime(newTime);
       }
-      this.setState({
-          sessionTime: newTime,
-          min: newTime
-      });
+      this.setState({sessionTime: newTime});
     }
   }
 
   updateMainTime(num) {
-    this.stopState();
     var newTime = num + ":00";
-    this.setState({
-      mainTime: newTime
-    });
+    this.setState({mainTime: newTime, min: num});
   }
 
-  toggleState() {
-    var newState;
-
-    if (this.state.stateIs === "stopped") {
-      newState = "running";
-      this.timer = setInterval(this.runTimer.bind(this), 1000);
-      console.log("this is", this);
-    } else {
-      newState = "stopped";
-      clearInterval(this.timer);
-      console.log("this is", this);
-    }
-    console.log("Toggle state to", newState);
-
-    this.setState({
-      stateIs: newState
-    });
-  }
-
-  stopState() {
+  stop() {
     clearInterval(this.timer);
-    this.setState({
-      stateIs: "stopped",
-      sec: 0
-    });
+    this.setState({timerIs: "stopped", sec: 0});
   }
 
   runTimer() {
-    var newMin = this.state.min,
-        newSec = this.state.sec,
-        newMainTime;
+    var newState;
 
+    if (this.state.timerIs === "stopped") {
+      newState = "running";
+      this.timer = setInterval(this.decrement.bind(this), 1000);
+    } else {
+      newState = "stopped";
+      clearInterval(this.timer);
+    }
+
+    this.setState({timerIs: newState});
+  }
+
+  decrement() {
+    var newMin = this.state.min,
+      newSec = this.state.sec,
+      newMainTime;
     if (this.state.sec === 0) {
-      newMin = this.state.min - 1;
-      newSec = 59;
+      if (this.state.min === 0) {
+        this.toggleMode();
+        return;
+
+      } else {
+        newMin = this.state.min - 1;
+        newSec = 59;
+      }
     } else {
       newSec = this.state.sec - 1;
     }
-    newMainTime = newMin.toString() + ":" + newSec.toString();
 
+    newMainTime = newMin.toString() + ":" + (newSec < 10 ? "0" + newSec.toString(): newSec.toString());
+
+    this.setState({mainTime: newMainTime, min: newMin, sec: newSec});
+  }
+
+  toggleMode() {
+    var newMode,
+      newMin;
+
+    if (this.state.mode === "Session") {
+      newMode = "Break";
+      newMin = this.state.breakTime;
+    } else {
+      newMode = "Session";
+      newMin = this.state.sessionTime;
+    }
+    this.updateMainTime(newMin);
+    this.setState({mode: newMode, min: newMin, sec: 0});
+  }
+
+  componentDidMount() {
+    this.updateMainTime(this.state.min);
+  }
+
+  reset() {
+    this.stop();
     this.setState({
-      mainTime: newMainTime,
-      min: newMin,
-      sec: newSec
+      mode: "Session",
+      timerIs: "stopped",
+      sessionTime: 25,
+      breakTime: 5,
+      mainTime: "25:00",
+      min: 25,
+      sec: 0
     });
   }
 
   render() {
     return (
-      <div>
-        <h1>FCC POMODORO CLOCK</h1>
-        <Button face="-" onClick={this.decreaseBreakTime.bind(this)} />
-        <Timer face={this.state.breakTime} />
-        <Button face="+" onClick={this.increaseBreakTime.bind(this)} />
-        <Button face="-" onClick={this.decreaseSessionTime.bind(this)} />
-        <Timer face={this.state.sessionTime} />
-        <Button face="+" onClick={this.increaseSessionTime.bind(this)} />
-        <br />
-        <div>
-          <Timer face={this.state.mainTime} onClick={this.toggleState.bind(this)} />
+      <div className="wrapper">
+        <h1>Pomodoro Clock</h1>
+        <div className="counter">
+          <h3>Break Time</h3>
+          <Button name="button down" face="-" onClick={this.decreaseBreakTime.bind(this)}/>
+          <Counter face={this.state.breakTime}/>
+          <Button name="button up" face="+" onClick={this.increaseBreakTime.bind(this)}/>
         </div>
+        <div className="counter">
+          <h3>Session Time</h3>
+          <Button name="button down" face="-" onClick={this.decreaseSessionTime.bind(this)}/>
+          <Counter face={this.state.sessionTime}/>
+          <Button name="button up" face="+" onClick={this.increaseSessionTime.bind(this)}/>
+        </div>
+        <br/>
+        <h1>{this.state.mode}</h1>
+        <h3>Click on the timer below to start/stop the clock</h3>
+        <Display face={this.state.mainTime} onClick={this.runTimer.bind(this)}/> {/* </div> */}
+        <Button name="button reset" face="Reset" onClick={this.reset.bind(this)} />
       </div>
     );
   }

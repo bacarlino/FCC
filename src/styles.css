@@ -2,6 +2,74 @@
   outline: solid red;
 }*/
 
+
+.counter {
+  display: inline-block;
+  margin: 25px;
+}
+
+.counter-display {
+  display: inline-block;
+  background-color: lightgrey;
+  font-size: 50px;
+  width: 75px;
+  text-align: center;
+}
+
+.button {
+  padding: 0;
+  display: inline-block;
+  font-size: 50px;
+  font-weight: bold;
+  width: 75px;
+  border: none;
+}
+
+.button:hover, .display:hover {
+  cursor: pointer;
+}
+
+.down {
+  background-color: red;
+}
+
+.up {
+  background-color: green;
+}
+
+.reset {
+  padding: 10px;
+  width: auto;
+  font-size: 25px;
+}
+
+
+.display {
+  display: block;
+  margin: 20px auto;
+  width: 300px;
+  font-size: 100px;
+  text-align: center;
+  background-color: lightblue;
+  padding: 25px;
+  border-radius: 10px;
+}
+
+.wrapper {
+  display: inline-block;
+  text-align: center;
+}
+
+/*button {
+  margin: 25px;
+  width: 35px;
+  height: 35px;
+}*/
+
+/** {
+  outline: solid red;
+}*/
+
 /*.test {
   border: solid pink;
 }
@@ -69,7 +137,7 @@ td > button {
 
 
 /* TicTacToe */
-
+/*
 body {
   background-color: ivory;
 }
@@ -155,4 +223,4 @@ button {
 
 #nine {
 
-}
+}*/
