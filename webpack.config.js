@@ -1,5 +1,5 @@
 module.exports = {
-  context: __dirname + '/src/',
+  context: __dirname + '/docs/',
   entry: './js/client.js',
   module: {
     loaders: [
@@ -14,7 +14,7 @@ module.exports = {
     ]
   },
   output: {
-    path: __dirname + '/src/',
+    path: __dirname + '/docs/',
     filename: 'client.min.js'
   }
 };
