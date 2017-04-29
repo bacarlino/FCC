@@ -9,13 +9,13 @@ export default function Nav() {
         <NavLink exact activeClassName='active' to='/'>Home</NavLink>
       </li>
       <li>
-        <NavLink activeClassName='active' to='/Calculator'>Calculator</NavLink>
+        <NavLink activeClassName='active' to='/calculator'>Calculator</NavLink>
       </li>
       <li>
-        <NavLink activeClassName='active' to='/Pomodoro'>Pomodoro</NavLink>
+        <NavLink activeClassName='active' to='/pomodoro'>Pomodoro</NavLink>
       </li>
       <li>
-        <NavLink activeClassName='active' to='/TicTacToe'>TicTacToe</NavLink>
+        <NavLink activeClassName='active' to='/tictactoe'>TicTacToe</NavLink>
       </li>
     </ul>
   )

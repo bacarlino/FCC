@@ -1,3 +1,4 @@
+import Calculator from './Calculator';
 import Home from './Home';
 import Nav from './Nav';
 import Pomodoro from './Pomodoro';
@@ -7,6 +8,7 @@ import {
   Route,
   Switch
 } from 'react-router-dom';
+import TicTacToe from './TicTacToe';
 
 
 export default class FCC extends React.Component {
@@ -17,7 +19,9 @@ export default class FCC extends React.Component {
           <Nav />
           <Switch>
             <Route exact path='/' component={Home} />
+            <Route path='/calculator' component={Calculator} />
             <Route path='/pomodoro' component={Pomodoro} />
+            <Route path='/tictactoe' component={TicTacToe} />
             <Route render={function () {
               return <p>Not Found</p>
             }} />

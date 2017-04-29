@@ -1,7 +1,34 @@
 /** {
   outline: solid red;
 }*/
+body {
+  font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen-Sans,Ubuntu,Cantarell,Helvetica Neue,sans-serif;
+}
 
+ul {
+  padding: 0;
+}
+
+li {
+  list-style-type: none;
+}
+
+a {
+  text-decoration: none;
+  color: #d0021b;
+}
+
+.nav {
+  display: flex;
+}
+
+.active {
+  font-weight: bold;
+}
+
+.nav li {
+  margin-right: 15px;
+}
 
 .counter {
   display: inline-block;
