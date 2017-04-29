@@ -1,20 +1,39 @@
-module.exports = {
-  context: __dirname + '/docs/',
-  entry: './js/client.js',
+var path = require('path');
+var HtmlWebpackPlugin = require('html-webpack-plugin');
+var webpack = require('webpack');
+
+var config = {
+  entry: './app/index.js',
+  output: {
+    path: path.resolve(__dirname, 'dist'),
+    filename: 'index_bundle.js',
+    publicPath: '/'
+  },
   module: {
-    loaders: [
-      {
-        test: /\.js$/,
-        exclude: /node_modules/,
-        loader: 'babel-loader',
-        query: {
-          presets: ['react', 'es2015']
-        }
-      }
+    rules: [
+      { test: /\.(js)$/, use: 'babel-loader' },
+      { test: /\.css$/, use: [ 'style-loader', 'css-loader' ]}
     ]
   },
-  output: {
-    path: __dirname + '/docs/',
-    filename: 'client.min.js'
-  }
+  devServer: {
+    historyApiFallback: true
+  },
+  plugins: [
+    new HtmlWebpackPlugin({
+      template: 'app/index.html'
+    })
+  ]
 };
+
+if (process.env.NODE_ENV === 'production') {
+  config.plugins.push(
+    new webpack.DefinePlugin({
+      'process.env': {
+        'NODE_ENV': JSON.stringify(process.env.NODE_ENV)
+      }
+    }),
+    new webpack.optimize.UglifyJsPlugin()
+  )
+}
+
+module.exports = config;
