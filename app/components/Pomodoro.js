@@ -169,25 +169,29 @@ class Pomodoro extends React.Component {
 
   render() {
     return (
-      <div className="wrapper">
+      <div className="pom-wrapper">
         <h1>Pomodoro Clock</h1>
         <div className="counter">
           <h3>Break Time</h3>
-          <Button name="button down" face="-" onClick={this.decreaseBreakTime.bind(this)}/>
-          <Counter face={this.state.breakTime}/>
-          <Button name="button up" face="+" onClick={this.increaseBreakTime.bind(this)}/>
+          <div className="interface">
+            <Button name="down" face="-" onClick={this.decreaseBreakTime.bind(this)}/>
+            <Counter face={this.state.breakTime}/>
+            <Button name="button up" face="+" onClick={this.increaseBreakTime.bind(this)}/>
+          </div>
         </div>
         <div className="counter">
           <h3>Session Time</h3>
-          <Button name="button down" face="-" onClick={this.decreaseSessionTime.bind(this)}/>
-          <Counter face={this.state.sessionTime}/>
-          <Button name="button up" face="+" onClick={this.increaseSessionTime.bind(this)}/>
+          <div className='interface'>
+            <Button name="down" face="-" onClick={this.decreaseSessionTime.bind(this)}/>
+            <Counter face={this.state.sessionTime}/>
+            <Button name="up" face="+" onClick={this.increaseSessionTime.bind(this)}/>
+          </div>
         </div>
         <br/>
         <h1>{this.state.mode}</h1>
         <h3>Click on the timer below to start/stop the clock</h3>
         <Display face={this.state.mainTime} onClick={this.runTimer.bind(this)}/> {/* </div> */}
-        <Button name="button reset" face="Reset" onClick={this.reset.bind(this)} />
+        <Button name="reset" face="Reset" onClick={this.reset.bind(this)} />
       </div>
     );
   }

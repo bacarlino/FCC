@@ -15,8 +15,11 @@ export default function Nav() {
         <NavLink activeClassName='active' to='/pomodoro'>Pomodoro</NavLink>
       </li>
       <li>
-        <NavLink activeClassName='active' to='/tictactoe'>TicTacToe</NavLink>
+        <NavLink activeClassName='active' to='/simon'>Simon</NavLink>
       </li>
+      {/* <li>
+        <NavLink activeClassName='active' to='/tictactoe'>TicTacToe</NavLink>
+      </li> */}
     </ul>
   )
 }

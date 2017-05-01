@@ -8,7 +8,7 @@ import {
   Route,
   Switch
 } from 'react-router-dom';
-import TicTacToe from './TicTacToe';
+import Simon from './Simon';
 
 
 export default class FCC extends React.Component {
@@ -21,7 +21,8 @@ export default class FCC extends React.Component {
             <Route exact path='/' component={Home} />
             <Route path='/calculator' component={Calculator} />
             <Route path='/pomodoro' component={Pomodoro} />
-            <Route path='/tictactoe' component={TicTacToe} />
+            <Route path='/simon' component={Simon} />
+            {/* <Route path='/tictactoe' /> */}
             <Route render={function () {
               return <p>Not Found</p>
             }} />

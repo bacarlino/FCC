@@ -1,7 +1,6 @@
 var React = require('react');
 var ReactDOM = require('react-dom');
 
-
 class Display extends React.Component {
   render() {
     return (
@@ -130,7 +129,7 @@ class Calculator extends React.Component {
 
   render() {
     return (
-      <div className="container text-center" id="calc-app">
+      <div className="text-center" id="calc-app">
         <div className="row">
           <div className="col-md-offset-3 col-md-6">
             <div id="calc-shell">
@@ -139,7 +138,7 @@ class Calculator extends React.Component {
                   <tr>
                     <td colSpan="4">
                       <Display total={this.state.screenValue}
-                               equation={this.state.equation}/>
+                        equation={this.state.equation}/>
                     </td>
                   </tr>
                   <tr>
