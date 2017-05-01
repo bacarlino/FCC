@@ -135,9 +135,12 @@ button.up {
 
 
 /* CALCULATOR */
+#calc-app {
+  text-align: center;
+}
 
 #calc-shell {
-  margin: 100px auto;
+  margin: 0 auto;
   background-color: #6992d3;
   width: 300px;
   border-radius: 30px;
@@ -203,6 +206,10 @@ td > button {
   width: 250px;
   height: 250px;;
   border: solid black 10px;
+}
+
+.simon-pad:hover {
+  cursor: pointer;
 }
 
 .green {
