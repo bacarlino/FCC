@@ -7,7 +7,8 @@ html {
 
 html,
 body,
-#app {
+#app,
+.container {
   height: 100%;
 }
 
@@ -49,6 +50,12 @@ a {
   max-width: 900px;
   margin: 0 auto;
 }
+
+
+
+
+
+
 
 
 /* POMODORO */
@@ -182,29 +189,38 @@ td > button {
 
 /* SIMON */
 
-/** {
-  outline: solid red;
-}*/
+* {
+  /*outline: solid red;*/
+}
+
+#simon {
+  width: 500px;
+  margin: 0 auto;
+  /*outline: solid limegreen;*/
+}
 
 #simon h1 {
-    text-align: center;
+  text-align: center;
 }
 
 #simon-container {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  background-color: black;
-  width: 500px;
-  height: 500px;
+  position: relative;
   margin: 0 auto;
+  background-color: black;
   border-radius: 100%;
+  /*border: solid orange;*/
 }
 
+.row {
+  width: 100%;
+  height: 250px;
+  /*outline: solid blue;*/
+  }
+
 .simon-pad {
-  width: 250px;
-  height: 250px;;
+  display: inline-block;
+  width: 50%;
+  height: 100%;
   border: solid black 10px;
 }
 
@@ -240,13 +256,6 @@ td > button {
   background-color: blue;
 }
 
-.row {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 50%;
-}
-
 .center-area {
   text-align: center;
   color: white;
@@ -255,12 +264,59 @@ td > button {
   height: 250px;
   border-radius: 100%;
   position: absolute;
+  top: 125px;
+  left: 125px;
   margin: 0 auto;
 }
+
 .center-area h1 {
   margin-top: 50px;
   font-size: 50px;
 }
+
+@media (max-width: 550px) {
+
+  #simon {
+    width: 300px;
+    /*margin: 0 auto;*/
+    /*outline: solid limegreen;*/
+  }
+
+  .row {
+    width: 100%;
+    height: 150px;
+    /*outline: solid blue;*/
+    }
+
+  /*#simon-container {
+    position: relative;
+    margin: 0 auto;
+    background-color: black;
+    border-radius: 100%;
+    border: solid orange;
+  }*/
+
+
+  .center-area {
+    /*text-align: center;
+    color: white;
+    background-color: black;*/
+    width: 150px;
+    height: 150px;
+    /*border-radius: 100%;*/
+    /*position: absolute;*/
+    top: 75px;
+    left: 75px;
+    /*margin: 0 auto;*/
+  }
+
+  .center-area h1 {
+    margin-top: 30px;
+    font-size: 30px;
+  }
+
+}
+
 
 
 /* TicTacToe */
