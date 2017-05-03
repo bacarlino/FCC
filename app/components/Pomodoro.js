@@ -171,6 +171,7 @@ class Pomodoro extends React.Component {
     return (
       <div className="pom-wrapper">
         <h1>Pomodoro Clock</h1>
+        <p>This app has not been optimized for all browsers and may appear distorted</p>
         <div className="counter">
           <h3>Break Time</h3>
           <div className="interface">

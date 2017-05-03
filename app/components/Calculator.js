@@ -131,6 +131,7 @@ class Calculator extends React.Component {
     return (
       <div className="text-center" id="calc-app">
         <h1>FCC Calculator</h1>
+        <p>This app has not been optimized for all browsers and may appear distorted</p>
         <div className="row">
           <div className="col-md-offset-3 col-md-6">
             <div id="calc-shell">

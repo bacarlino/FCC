@@ -17,10 +17,8 @@ export default function Nav() {
       <li>
         <NavLink activeClassName='active' to='/simon'>Simon</NavLink>
       </li>
-      {/* <li>
-        <NavLink activeClassName='active' to='/tictactoe'>TicTacToe</NavLink>
-      </li> */}
     </ul>
+
   )
 }
 
