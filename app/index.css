@@ -289,6 +289,7 @@ td > button {
 
 .count {
   width: 50px;
+  /*height: 40px;*/
   background-color: silver;
   color: black;
 }
@@ -308,6 +309,8 @@ td > button {
   margin-top: 25px;
   background-color: silver;
 }
+
+/*sIMON MEDIA QUERY*/
 
 @media (max-width: 550px) {
 
