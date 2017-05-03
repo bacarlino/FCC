@@ -42,7 +42,7 @@ export default class Simon extends React.Component {
             <h1>Simon</h1>
             <div className='controls'>
               <div className='control-top'>
-                <div className='count'>Count</div>
+                <div className='count'>20</div>
                 <button className='start'>Start</button>
                 <button className="strict">Strict</button>
               </div>
