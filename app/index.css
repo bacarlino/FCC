@@ -233,32 +233,47 @@ td > button {
   cursor: pointer;
 }
 
-.green {
+#green {
   border-right: black solid 15px;
   border-bottom: solid black 15px;
   border-top-left-radius: 100%;
-  background-color: green;
+  background-color: #008500;
 }
 
- .red {
+#green.on {
+  background-color: #00FF00;
+}
+
+ #red {
   border-left: black solid 15px;
   border-bottom: solid black 15px;
   border-top-right-radius: 100%;
-  background-color: red;
+  background-color: #850000;
 }
 
-.yellow {
+#red.on {
+  background-color: #FF0000;
+}
+
+#yellow {
   border-right: black solid 15px;
   border-top: solid black 15px;
   border-bottom-left-radius: 100%;
-  background-color: yellow;
+  background-color: #858500;
 }
 
- .blue {
+#yellow.on {
+  background-color: #FFFF00;
+}
+
+ #blue {
   border-left: black solid 15px;
   border-top: solid black 15px;
   border-bottom-right-radius: 100%;
-  background-color: blue;
+  background-color: #000085;
+}
+#blue.on {
+  background-color: #0000FF;
 }
 
 .center-area {
@@ -272,13 +287,16 @@ td > button {
   top: 125px;
   left: 125px;
   margin: 0 auto;
-  /*padding: 10px;*/
 }
 
 .center-area h1 {
   font-weight: bold;
   margin-bottom: 20px;
   font-size: 60px;
+}
+
+.controls * {
+  border-radius: 10px;
 }
 
 .control-top {
@@ -289,25 +307,24 @@ td > button {
 
 .count {
   width: 50px;
-  /*height: 40px;*/
-  background-color: silver;
+  background-color:white;
   color: black;
 }
 
 .start {
   width: 50px;
-  background-color: silver;
+  background-color:white;
 }
 
 .strict {
   width: 50px;
-  background-color: silver;
+  background-color:white;
   color: black;
 }
 
 .on-off {
   margin-top: 25px;
-  background-color: silver;
+  background-color: white;
 }
 
 /*sIMON MEDIA QUERY*/
@@ -342,32 +359,36 @@ td > button {
     border: solid black 20px;
   }
 
-  .green {
+  #green {
     border-right: black solid 10px;
     border-bottom: solid black 10px;
     border-top-left-radius: 100%;
-    background-color: green;
+    background-color: #008500;
   }
 
-   .red {
+  .on {
+    background-color: #00FF00;
+  }
+
+   #red {
     border-left: black solid 10px;
     border-bottom: solid black 10px;
     border-top-right-radius: 100%;
-    background-color: red;
+    background-color: #850000;
   }
 
-  .yellow {
+  #yellow {
     border-right: black solid 10px;
     border-top: solid black 10px;
     border-bottom-left-radius: 100%;
-    background-color: yellow;
+    background-color: #858500;
   }
 
-   .blue {
+   #blue {
     border-left: black solid 10px;
     border-top: solid black 10px;
     border-bottom-right-radius: 100%;
-    background-color: blue;
+    background-color: #000085;
   }
 
   .control-top {
