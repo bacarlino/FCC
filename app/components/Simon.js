@@ -18,6 +18,7 @@ class Pad extends React.Component {
   }
 
   activate() {
+    document.getElementById(this.props.id + '-audio').play();
     this.setState(function() {
       return {on: true, audio: true, triggered: false};
     });
@@ -47,12 +48,12 @@ class Pad extends React.Component {
         className={`simon-pad ${this.state.on?'on':'off'}`}
         onClick={this.handleClick.bind(this)}>
 
-        {this.state.audio &&
-          <audio autoPlay>
-            <source src={'app/audio/' + this.props.id + '.mp3'} type="audio/mpeg" />
-            Audio not supported in by your browser.
-          </audio>
-        }
+        {/* {this.state.audio && */}
+        <audio id={this.props.id + '-audio'}>
+          <source src={'app/audio/' + this.props.id + '.mp3'} type="audio/mpeg" />
+          Audio not supported in by your browser.
+        </audio>
+        {/* } */}
       </div>
     );
   }
@@ -85,6 +86,7 @@ export default class Simon extends React.Component {
   }
 
   resetState() {
+    clearTimeout(this.buzzer);
     clearTimeout(this.timer);
     clearInterval(this.cpuPlay);
     this.setState(function () {
@@ -104,6 +106,7 @@ export default class Simon extends React.Component {
   }
 
   restartState() {
+    clearTimeout(this.buzzer);
     clearTimeout(this.timer);
     clearInterval(this.cpuPlay);
     console.log('restartState calling setState', this.state);
@@ -280,7 +283,7 @@ export default class Simon extends React.Component {
     this.setState(function () {
       return {buzzer: true};
     });
-    setTimeout(() => {
+    this.buzzer = setTimeout(() => {
       if (!this.state.strict) {
         this.clearUserSeq();
         this.playCpuSeq();
@@ -302,6 +305,7 @@ export default class Simon extends React.Component {
   }
 
   render() {
+    console.log('timer =', this.timer, 'cpuPlay =', this.cpuPlay)
     return (
       <div id='simon'>
         <h1>FreeCodeCamp Simon</h1>
