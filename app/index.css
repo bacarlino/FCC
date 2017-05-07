@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css?family=Sarpanch:900');
+
 html {
   box-sizing: border-box;
 }
@@ -290,7 +292,8 @@ td > button {
 }
 
 .center-area h1 {
-  font-weight: bold;
+  font-weight: 900;
+  font-family: 'Sarpanch', sans-serif;
   margin-bottom: 20px;
   font-size: 60px;
 }
@@ -316,10 +319,22 @@ td > button {
   background-color:white;
 }
 
+.start-on {
+  width: 50px;
+  border-color: #23d144;
+  background-color:#23d144;
+}
+
 .strict {
   width: 50px;
   background-color:white;
   color: black;
+}
+
+.strict-on {
+  width: 50px;
+  border-color: #23d144;
+  background-color: #23d144;
 }
 
 .on-off {
@@ -327,7 +342,17 @@ td > button {
   background-color: white;
 }
 
-/*sIMON MEDIA QUERY*/
+.on-off-on {
+  margin-top: 25px;
+  border-color: #23d144;
+  background-color: #23d144
+}
+
+button.on {
+  background-color: red;
+}
+
+/*SIMON MEDIA QUERY*/
 
 @media (max-width: 550px) {
 

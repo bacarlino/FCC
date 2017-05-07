@@ -6,23 +6,24 @@ class Pad extends React.Component {
 
     this.state = {
       on: false,
+      audio: false,
       triggered: false
     }
   }
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.triggered) {
-      this.turnOnLight();
+      this.activate();
     }
   }
 
-  turnOnLight() {
+  activate() {
     this.setState(function() {
-      return {on: true, triggered: false};
+      return {on: true, audio: true, triggered: false};
     });
     setTimeout(() => {
       return this.setState(function() {
-        return {on: false};
+        return {on: false, audio: false};
       });
     }, 420)
   }
@@ -30,10 +31,10 @@ class Pad extends React.Component {
   handleClick(e) {
     e.persist();
     if (!e.nativeEvent.isTrusted) {
-      this.turnOnLight();
+      this.activate();
     } else {
-      if (!this.props.padLock) {
-        this.turnOnLight();
+      if (!this.props.padLock && this.props.userResponse) {
+        this.activate();
         this.props.onClick(this.props.id);
       }
     }
@@ -41,11 +42,17 @@ class Pad extends React.Component {
 
   render() {
     return (
-
       <div
         id={this.props.id}
         className={`simon-pad ${this.state.on?'on':'off'}`}
         onClick={this.handleClick.bind(this)}>
+
+        {this.state.audio &&
+          <audio autoPlay>
+            <source src={'app/audio/' + this.props.id + '.mp3'} type="audio/mpeg" />
+            Audio not supported in by your browser.
+          </audio>
+        }
       </div>
     );
   }
@@ -53,10 +60,12 @@ class Pad extends React.Component {
 
 
 export default class Simon extends React.Component {
+
   constructor(props) {
     super(props);
+    this.padList = ['green', 'red', 'yellow', 'blue'];
 
-    this.default = {
+    this.state = {
      on: false,
      strict: false,
      start: false,
@@ -68,124 +77,178 @@ export default class Simon extends React.Component {
      userResponse: false,
    };
 
-
-    this.state = this.default;
-
     this.toggleOn = this.toggleOn.bind(this);
     this.toggleStart = this.toggleStart.bind(this);
     this.toggleStrict = this.toggleStrict.bind(this);
     this.padClicked = this.padClicked.bind(this);
     this.evaluate = this.evaluate.bind(this);
-
   }
-
 
   resetState() {
     clearTimeout(this.timer);
-    console.log('setting defaults', this.default)
+    clearInterval(this.cpuPlay);
     this.setState(function () {
-      return this.default;
+      return {
+       on: false,
+       strict: false,
+       start: false,
+       count: 0,
+       padLock: false,
+       cpuSeq: [],
+       userSeq: [],
+       cpuClick: false,
+       userResponse: false,
+       buzzer: false
+     };
     });
   }
 
-  toggleOn() {
+  restartState() {
+    clearTimeout(this.timer);
+    clearInterval(this.cpuPlay);
+    console.log('restartState calling setState', this.state);
+    this.setState(function () {
+      return {
+       count: 0,
+       padLock: false,
+       cpuSeq: [],
+       userSeq: [],
+       cpuClick: false,
+       userResponse: false,
+       buzzer: false
+     };
+   }, this.runGame);
+    console.log('exit restartState', this.state);
+  }
 
+
+
+  toggleOn() {
     if (this.state.on) {
       this.resetState();
     } else {
       this.setState(function () {
         return !this.state.on && {on: true};
-    });
+      });
+    }
   }
-}
+
   toggleStrict() {
+    let strict = this.state.strict;
+    if (this.state.on && !this.state.strict) {
+      strict = true;
+    } else if (this.state.strict) {
+      strict = false;
+    }
     this.setState(function () {
-      return this.state.strict && this.state.on?{strict: false}:{strict: true};
+      return {strict: strict};
     });
   }
 
   toggleStart() {
     if (this.state.on) {
-      this.runGame();
-      this.setState(function () {
-        return this.state.start?{start: false}:{start: true};
-      });
+      if (!this.state.start) {
+        this.runGame();
+        this.setState(function () {
+          return {start: true};
+        });
+      } else {
+        this.restartState();
+      }
     }
   }
 
   togglePadLock() {
-    console.log('Toggling padLock', !this.state.padLock);
     this.setState(function () {
       return this.state.padLock?{padLock: false}:{padLock: true};
     });
   }
 
   toggleUserResponse() {
-    console.log('Toggling userResponse', !this.state.userResponse);
     this.setState(function () {
       return this.state.userResponse?{userResponse: false}:{userResponse: true};
     });
   }
 
+  userResponseOn() {
+    this.setState(function () {
+      return {userResponse: true};
+    });
+  }
+
+  userResponseOff() {
+    this.setState(function () {
+      return {userResponse: false};
+    });
+  }
+
+
+
+  clearUserSeq() {
+    this.setState(function () {
+      return {userSeq: []};
+    });
+  }
+
+  clearCpuSeq() {
+    this.setState(function () {
+      return {cpuSeq: [], count: 0};
+    });
+  }
 
   padClicked(id) {
-    console.log(id, 'pad callback', this);
     let userSeq = this.state.userSeq;
-    clearTimeout(this.timer);
-
     if (this.state.userResponse) {
-      this.timer = setTimeout(this.evaluate.bind(this), 3000);
+      clearTimeout(this.timer);
       userSeq.push(id);
       this.setState(function () {
         return {
           userSeq: userSeq
         };
       });
-
-      if (this.state.cpuSeq.length === this.state.userSeq.length) {
-        clearTimeout(this.timer);
-        this.evaluate();
-      }
+      this.evaluate();
     }
   }
 
-  addPad() {
-    console.log('addPad');
-    const padList = ['green', 'red', 'yellow', 'blue'];
-    let cpuSeq = this.state.cpuSeq;
-
-    cpuSeq.push(padList[Math.floor(Math.random() * padList.length)]);
-
-    console.log('Adding to cpuSeq', cpuSeq)
-    this.setState(function () {
-      return {
-        cpuSeq: cpuSeq,
-        count: cpuSeq.length,
-        userSeq: []
-      }
-    })
-  }
-
   userInput() {
-    console.log('Waiting for user input');
-    this.toggleUserResponse();
-    this.timer = setTimeout(this.evaluate.bind(this), 3000);
-
+    this.userResponseOn();
+    this.timer = setTimeout(this.playBuzzer.bind(this), 3000);
   }
 
   evaluate() {
-    this.toggleUserResponse();
-    console.log('EVALUATE - ',this.state.userSeq, this.state.cpuSeq);
-    for (let i = 0; i < this.state.cpuSeq.length; i++) {
-      if (this.state.userSeq[i] === this.state.cpuSeq[i]) {
+    let userSeq = this.state.userSeq;
+    let cpuSeq = this.state.cpuSeq;
+
+    this.userResponseOff();
+
+    for (let i = 0; i < userSeq.length; i++) {
+      if (userSeq[i] === cpuSeq[i]) {
         continue;
       } else {
+        clearTimeout(this.timer);
         this.playBuzzer();
         return;
       }
     }
-    console.log('MATCH!');
-    setTimeout(this.runGame.bind(this), 700);
+    if (userSeq.length === cpuSeq.length) {
+      setTimeout(this.runGame.bind(this), 700);
+    } else {
+      this.userInput();
+    }
+  }
+
+  addPad() {
+    const padList = ['green', 'red', 'yellow', 'blue'];
+    let cpuSeq = this.state.cpuSeq;
+
+    cpuSeq.push(padList[Math.floor(Math.random() * this.padList.length)]);
+
+    this.setState(function () {
+      return {
+        cpuSeq: cpuSeq,
+        count: cpuSeq.length,
+      }
+    })
   }
 
   clickPad(id) {
@@ -196,31 +259,49 @@ export default class Simon extends React.Component {
     let seq = this.state.cpuSeq;
     let i = 0;
 
-      this.togglePadLock();
-      var cpuPlay = setInterval(() => {
-        if (i < seq.length) {
+    this.togglePadLock();
+    this.cpuPlay = setInterval(() => {
+
+      if (i < seq.length) {
         this.clickPad(seq[i]);
         i++;
       } else {
-        clearInterval(cpuPlay);
+        clearInterval(this.cpuPlay);
+        i = 0;
         this.togglePadLock();
         this.userInput();
       }
     }, 470);
-    //
   }
 
   playBuzzer() {
-    console.log('BUZZZZZZZZZ');
+    this.userResponseOff();
+    clearTimeout(this.timer);
+    this.setState(function () {
+      return {buzzer: true};
+    });
+    setTimeout(() => {
+      if (!this.state.strict) {
+        this.clearUserSeq();
+        this.playCpuSeq();
+      } else {
+        this.restartState();
+      }
+      this.setState(function () {
+        return {buzzer: false};
+      });
+    }, 2000);
   }
 
   runGame() {
+    this.clearUserSeq();
+    console.log('call addPad');
     this.addPad();
+    console.log('call playCpuSeq');
     this.playCpuSeq();
   }
 
   render() {
-    console.log('Simon Rendering', this.state)
     return (
       <div id='simon'>
         <h1>FreeCodeCamp Simon</h1>
@@ -230,47 +311,52 @@ export default class Simon extends React.Component {
             <Pad
               onClick={this.padClicked}
               id='green'
-              triggered={this.state.cpuPick === 'green'}
               padLock={this.state.padLock}
-              cpuClick={this.state.cpuClick}
+              userResponse={this.state.userResponse}
+
             />
             <Pad
               onClick={this.padClicked}
               id='red'
-              triggered={this.state.cpuPick === 'red'}
               padLock={this.state.padLock}
+              userResponse={this.state.userResponse}
             />
           </div>
           <div className='row'>
             <Pad
               onClick={this.padClicked}
               id='yellow'
-              triggered={this.state.cpuPick === 'yellow'}
               padLock={this.state.padLock}
+              userResponse={this.state.userResponse}
             />
             <Pad
               onClick={this.padClicked}
               id='blue'
-              triggered={this.state.cpuPick === 'blue'}
               padLock={this.state.padLock}
+              userResponse={this.state.userResponse}
             />
           </div>
           <div className='center-area'>
             <h1>Simon</h1>
             <div className='controls'>
               <div className='control-top'>
-
                 <div className='count'>{this.state.on?this.state.count:''}</div>
-                <button className='start' onClick={this.toggleStart}>Start</button>
-                <button className='strict' onClick={this.toggleStrict}>Strict</button>
+                <button className={this.state.start?'start-on':'start'}  onClick={this.toggleStart}>Start</button>
+                <button className={this.state.strict?'strict-on':'strict'} onClick={this.toggleStrict}>Strict</button>
               </div>
-              <button className='on-off' onClick={this.toggleOn}>ON/OFF</button>
+              <button className={!this.state.on?'on-off':'on-off-on'} onClick={this.toggleOn}>ON/OFF</button>
             </div>
+            {this.state.buzzer &&
+              <audio autoPlay>
+                <source src={'app/audio/buzzer.mp3'} type="audio/mpeg" />
+                Audio not supported in by your browser.
+              </audio>
+            }
           </div>
         </div>
-        <button onClick={this.addPad.bind(this)}>ADD PAD</button>
-        <button onClick={this.runGame.bind(this)}>RUN GAME</button>
-        <button onClick={this.playCpuSeq.bind(this)}>PLAY SEQ</button>
+        {/* <button onClick={this.toggleUserResponse.bind(this)}>UNLOCK PADS</button>
+          <button onClick={this.runGame.bind(this)}>RUN GAME</button>
+        <button onClick={this.playCpuSeq.bind(this)}>PLAY SEQ</button> */}
       </div>
     );
   }
