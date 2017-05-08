@@ -1,9 +1,9 @@
 import React from 'react';
-import green from '../audio/green.mp3';
-import red from '../audio/red.mp3';
-import yellow from '../audio/yellow.mp3';
-import blue from '../audio/blue.mp3';
-import buzzer from '../audio/buzzer.mp3';
+import greenMp3 from '../audio/green.mp3';
+import redMp3 from '../audio/red.mp3';
+import yellowMp3 from '../audio/yellow.mp3';
+import blueMp3 from '../audio/blue.mp3';
+import buzzerMp3 from '../audio/buzzer.mp3';
 
 
 class Pad extends React.Component {
@@ -11,10 +11,10 @@ class Pad extends React.Component {
     super(props);
 
     this.audio = {
-      green: green,
-      red: red,
-      yellow: yellow,
-      blue: blue
+      green: greenMp3,
+      red: redMp3,
+      yellow: yellowMp3,
+      blue: blueMp3
     }
 
     this.state = {
@@ -31,25 +31,27 @@ class Pad extends React.Component {
   }
 
   activate() {
-    document.getElementById(this.props.id + '-audio').play();
+    var audio = document.getElementById(this.props.id + '-audio');
+    audio.load();
+    audio.play();
     this.setState(function() {
-      return {on: true, audio: true, triggered: false};
+      return {on: true};
+    }, () => {
+      setTimeout(() => {
+        return this.setState(function() {
+          return {on: false};
+        }, () => {
+        });
+      }, 420);
     });
-    setTimeout(() => {
-      return this.setState(function() {
-        return {on: false, audio: false};
-      });
-    }, 420)
   }
 
   handleClick(e) {
     e.persist();
     if (!e.nativeEvent.isTrusted) {
-      // document.getElementById(this.props.id + '-audio').play();
       this.activate();
     } else {
       if (!this.props.padLock && this.props.userResponse) {
-        // document.getElementById(this.props.id + '-audio').play();
         this.activate();
         this.props.onClick(this.props.id);
       }
@@ -62,13 +64,10 @@ class Pad extends React.Component {
         id={this.props.id}
         className={`simon-pad ${this.state.on?'on':'off'}`}
         onClick={this.handleClick.bind(this)}>
-
-        {/* {this.state.audio && */}
         <audio id={this.props.id + '-audio'}>
           <source src={this.audio[this.props.id]} type="audio/mpeg" />
           Audio not supported by your browser.
         </audio>
-        {/* } */}
       </div>
     );
   }
@@ -136,13 +135,11 @@ export default class Simon extends React.Component {
        buzzer: false
      };
    }, this.runGame);
-    console.log('exit restartState', this.state);
   }
-
-
 
   toggleOn() {
     if (this.state.on) {
+
       this.resetState();
     } else {
       this.setState(function () {
@@ -295,9 +292,7 @@ export default class Simon extends React.Component {
   playBuzzer() {
     this.userResponseOff();
     clearTimeout(this.timer);
-    this.setState(function () {
-      return {buzzer: true};
-    });
+    document.getElementById('buzzer').play();
     this.buzzer = setTimeout(() => {
       if (!this.state.strict) {
         this.clearUserSeq();
@@ -313,15 +308,11 @@ export default class Simon extends React.Component {
 
   runGame() {
     this.clearUserSeq();
-    console.log('call addPad');
     this.addPad();
-    console.log('call playCpuSeq');
     this.playCpuSeq();
   }
 
   render() {
-    console.log('timer =', this.timer, 'cpuPlay =', this.cpuPlay);
-
     return (
       <div id='simon'>
         <h1>FreeCodeCamp Simon</h1>
@@ -366,17 +357,12 @@ export default class Simon extends React.Component {
               </div>
               <button className={!this.state.on?'on-off':'on-off-on'} onClick={this.toggleOn}>ON/OFF</button>
             </div>
-            {this.state.buzzer &&
-              <audio autoPlay>
-                <source src={buzzer} type="audio/mpeg" />
-                Audio not supported in by your browser.
-              </audio>
-            }
+            <audio id='buzzer'>
+              <source src={buzzerMp3} type="audio/mpeg" />
+              Audio not supported in by your browser.
+            </audio>
           </div>
         </div>
-        {/* <button onClick={this.toggleUserResponse.bind(this)}>UNLOCK PADS</button>
-          <button onClick={this.runGame.bind(this)}>RUN GAME</button>
-        <button onClick={this.playCpuSeq.bind(this)}>PLAY SEQ</button> */}
       </div>
     );
   }
