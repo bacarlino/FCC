@@ -1,8 +1,21 @@
 import React from 'react';
+import green from '../audio/green.mp3';
+import red from '../audio/red.mp3';
+import yellow from '../audio/yellow.mp3';
+import blue from '../audio/blue.mp3';
+import buzzer from '../audio/buzzer.mp3';
+
 
 class Pad extends React.Component {
   constructor(props) {
     super(props);
+
+    this.audio = {
+      green: green,
+      red: red,
+      yellow: yellow,
+      blue: blue
+    }
 
     this.state = {
       on: false,
@@ -32,9 +45,11 @@ class Pad extends React.Component {
   handleClick(e) {
     e.persist();
     if (!e.nativeEvent.isTrusted) {
+      // document.getElementById(this.props.id + '-audio').play();
       this.activate();
     } else {
       if (!this.props.padLock && this.props.userResponse) {
+        // document.getElementById(this.props.id + '-audio').play();
         this.activate();
         this.props.onClick(this.props.id);
       }
@@ -50,8 +65,8 @@ class Pad extends React.Component {
 
         {/* {this.state.audio && */}
         <audio id={this.props.id + '-audio'}>
-          <source src={'app/audio/' + this.props.id + '.mp3'} type="audio/mpeg" />
-          Audio not supported in by your browser.
+          <source src={this.audio[this.props.id]} type="audio/mpeg" />
+          Audio not supported by your browser.
         </audio>
         {/* } */}
       </div>
@@ -305,7 +320,8 @@ export default class Simon extends React.Component {
   }
 
   render() {
-    console.log('timer =', this.timer, 'cpuPlay =', this.cpuPlay)
+    console.log('timer =', this.timer, 'cpuPlay =', this.cpuPlay);
+
     return (
       <div id='simon'>
         <h1>FreeCodeCamp Simon</h1>
@@ -352,7 +368,7 @@ export default class Simon extends React.Component {
             </div>
             {this.state.buzzer &&
               <audio autoPlay>
-                <source src={'app/audio/buzzer.mp3'} type="audio/mpeg" />
+                <source src={buzzer} type="audio/mpeg" />
                 Audio not supported in by your browser.
               </audio>
             }
