@@ -1,0 +1,48 @@
+/* CALCULATOR */
+
+@import url('https://fonts.googleapis.com/css?family=Audiowide');
+
+#calc-app {
+  text-align: center;
+}
+
+#calc-shell {
+  margin: 0 auto;
+  background-color: #6992d3;
+  width: 300px;
+  border-radius: 30px;
+  padding: 10px;
+}
+
+#calc-body {
+  table-layout: fixed;
+  width: 250px;
+  font-family: 'Audiowide', cursive;
+  margin: 10px auto;
+}
+
+#calc-display {
+  width: 100%;
+  max-width: 100%;
+  height: 75px;
+  border: solid black;
+  border-radius: 5px;
+  text-align: right;
+  overflow: auto;
+  background-color: silver;
+  font-size: 2em;
+  margin-bottom: 10px;
+}
+
+td {
+  width: 75px;
+  height: 65px;
+}
+
+td > button {
+  width: 100%;
+  height: 100%;
+  border-radius: 10px;
+  font-size: 1.5em;
+  background-color: lightgray;
+}

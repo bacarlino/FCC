@@ -1,5 +1,6 @@
 import React from 'react';
 import $ from 'jquery';
+import '../styles/tictactoe.css';
 
 
 // class TicTacToe extends React.Component {

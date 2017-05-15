@@ -1,0 +1,227 @@
+@import url('https://fonts.googleapis.com/css?family=Sarpanch:900');
+
+
+/* SIMON */
+
+* {
+  /*outline: solid red;*/
+}
+
+#simon {
+  /*width: 500px;*/
+  margin: 0 auto;
+  /*outline: solid limegreen;*/
+}
+
+#simon h1 {
+  text-align: center;
+}
+
+#simon-container {
+  width: 500px;
+  position: relative;
+  margin: 0 auto;
+  background-color: black;
+  border-radius: 100%;
+  /*border: solid orange;*/
+}
+
+.row {
+  width: 100%;
+  height: 250px;
+  /*outline: solid blue;*/
+  }
+
+.simon-pad {
+  display: inline-block;
+  width: 50%;
+  height: 100%;
+  border: solid black 30px;
+}
+
+.simon-pad:hover {
+  cursor: pointer;
+}
+
+#green {
+  border-right: black solid 15px;
+  border-bottom: solid black 15px;
+  border-top-left-radius: 100%;
+  background-color: #008500;
+}
+
+#green.on {
+  background-color: #00FF00;
+}
+
+ #red {
+  border-left: black solid 15px;
+  border-bottom: solid black 15px;
+  border-top-right-radius: 100%;
+  background-color: #850000;
+}
+
+#red.on {
+  background-color: #FF0000;
+}
+
+#yellow {
+  border-right: black solid 15px;
+  border-top: solid black 15px;
+  border-bottom-left-radius: 100%;
+  background-color: #858500;
+}
+
+#yellow.on {
+  background-color: #FFFF00;
+}
+
+ #blue {
+  border-left: black solid 15px;
+  border-top: solid black 15px;
+  border-bottom-right-radius: 100%;
+  background-color: #000085;
+}
+#blue.on {
+  background-color: #0000FF;
+}
+
+.center-area {
+  text-align: center;
+  color: #ddd;
+  background-color: black;
+  width: 250px;
+  height: 250px;
+  border-radius: 100%;
+  position: absolute;
+  top: 125px;
+  left: 125px;
+  margin: 0 auto;
+}
+
+.center-area h1 {
+  font-weight: 900;
+  font-family: 'Sarpanch', sans-serif;
+  margin-bottom: 0;
+  font-size: 60px;
+}
+
+.controls * {
+  border-radius: 10px;
+  padding: 7px;
+}
+
+.control-top {
+  display: flex;
+  justify-content: space-around;
+}
+
+
+.count {
+  width: 50px;
+  background-color: #333;
+  color: rgb(255, 0, 0);
+  font-weight: bold;
+}
+
+.start {
+  padding: 5px;
+  width: 50px;
+  background-color:#ddd;
+}
+
+.start-on {
+  width: 50px;
+  border-color: #23d144;
+  background-color:#23d144;
+}
+
+.strict {
+  width: 50px;
+  background-color:#ddd;
+  color: black;
+}
+
+.strict-on {
+  width: 50px;
+  border-color: #23d144;
+  background-color: #23d144;
+}
+
+.on-off {
+  margin-top: 25px;
+  background-color: #ddd;
+}
+
+.on-off-on {
+  margin-top: 25px;
+  border-color: #23d144;
+  background-color: #23d144
+}
+
+button.on {
+  background-color: red;
+}
+
+/*SIMON MEDIA QUERY*/
+
+@media (max-width: 550px) {
+
+  #simon-container {
+    width: 300px;
+  }
+
+  .row {
+    width: 100%;
+    height: 150px;
+    }
+
+  .center-area {
+    width: 150px;
+    height: 150px;
+    top: 75px;
+    left: 75px;
+  }
+
+  .center-area h1 {
+    margin-top: 30px;
+    font-size: 30px;
+  }
+
+  .simon-pad {
+    display: inline-block;
+    width: 50%;
+    height: 100%;
+    border: solid black 20px;
+  }
+
+
+  .control-top {
+    justify-content: center;
+  }
+
+  .center-area h1 {
+    margin-top: 20px;
+    margin-bottom: 0px;
+  }
+
+  .center-area * {
+    margin: 0 5px;
+    padding: 0;
+    font-size: 10px;
+  }
+
+  .controls * {
+    padding-top: 5px;
+    padding-bottom: 5px;
+  }
+
+  .on-off {
+    margin-top: 10px;
+  }
+
+  .on-off-on {
+    margin-top: 10px;
+  }
+
+}

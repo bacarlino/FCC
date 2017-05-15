@@ -1,11 +1,14 @@
 var React = require('react');
 var ReactDOM = require('react-dom');
+import '../styles/calculator.css';
 
 class Display extends React.Component {
   render() {
     return (
       <div id="calc-display">
-        <div id="top-disp">{this.props.total}</div>
+        <div>
+          {this.props.total}
+        </div>
       </div>
     );
   }
@@ -129,52 +132,48 @@ class Calculator extends React.Component {
 
   render() {
     return (
-      <div className="text-center" id="calc-app">
-        <h1>FCC Calculator</h1>
-        <p>This app has not been optimized for all browsers and may appear distorted</p>
-        <div className="row">
-          <div className="col-md-offset-3 col-md-6">
-            <div id="calc-shell">
-              <table id="calc-body">
-                <tbody>
-                  <tr>
-                    <td colSpan="4">
-                      <Display total={this.state.screenValue}
-                        equation={this.state.equation}/>
-                    </td>
-                  </tr>
-                  <tr>
-                    <Button face="C" onClick={this.clearScreen} />
-                    <Button face="&#8630;" onClick={this.undo} />
-                    <Button face="/" onClick={this.operatorPress} />
-                    <Button face="*" onClick={this.operatorPress} />
-                  </tr>
-                  <tr>
-                    <Button face="7" onClick={this.numberPress} />
-                    <Button face="8" onClick={this.numberPress} />
-                    <Button face="9" onClick={this.numberPress} />
-                    <Button face="-" onClick={this.operatorPress} />
-                  </tr>
-                  <tr>
-                    <Button face="4" onClick={this.numberPress} />
-                    <Button face="5" onClick={this.numberPress} />
-                    <Button face="6" onClick={this.numberPress} />
-                    <Button face="+" onClick={this.operatorPress} />
-                  </tr>
-                  <tr>
-                    <Button face="1" onClick={this.numberPress} />
-                    <Button face="2" onClick={this.numberPress} />
-                    <Button face="3" onClick={this.numberPress} />
-                    <Button face="=" rowspan='2' onClick={this.calculate} />
-                  </tr>
-                  <tr>
-                    <Button colspan='2' face='0' onClick={this.numberPress} />
-                    <Button face="." onClick={this.numberPress} />
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
+      <div id="calc-app">
+        <h1>Calculator</h1>
+        <p>This app has not been optimized for all browsers (especially mobile) and may appear distorted</p>
+        <div id="calc-shell">
+          <table id="calc-body">
+            {/* <tbody> */}
+            <tr>
+              <td colSpan="4">
+                <Display total={this.state.screenValue}
+                  equation={this.state.equation}/>
+              </td>
+            </tr>
+            <tr>
+              <Button face="C" onClick={this.clearScreen} />
+              <Button face="&#8630;" onClick={this.undo} />
+              <Button face="/" onClick={this.operatorPress} />
+              <Button face="*" onClick={this.operatorPress} />
+            </tr>
+            <tr>
+              <Button face="7" onClick={this.numberPress} />
+              <Button face="8" onClick={this.numberPress} />
+              <Button face="9" onClick={this.numberPress} />
+              <Button face="-" onClick={this.operatorPress} />
+            </tr>
+            <tr>
+              <Button face="4" onClick={this.numberPress} />
+              <Button face="5" onClick={this.numberPress} />
+              <Button face="6" onClick={this.numberPress} />
+              <Button face="+" onClick={this.operatorPress} />
+            </tr>
+            <tr>
+              <Button face="1" onClick={this.numberPress} />
+              <Button face="2" onClick={this.numberPress} />
+              <Button face="3" onClick={this.numberPress} />
+              <Button face="=" rowspan='2' onClick={this.calculate} />
+            </tr>
+            <tr>
+              <Button colspan='2' face='0' onClick={this.numberPress} />
+              <Button face="." onClick={this.numberPress} />
+            </tr>
+            {/* </tbody> */}
+          </table>
         </div>
       </div>
     );

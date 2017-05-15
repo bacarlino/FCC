@@ -1,21 +1,34 @@
 import React from 'react';
-import greenMp3 from '../audio/green.mp3';
-import redMp3 from '../audio/red.mp3';
-import yellowMp3 from '../audio/yellow.mp3';
-import blueMp3 from '../audio/blue.mp3';
-import buzzerMp3 from '../audio/buzzer.mp3';
+import padSounds from '../audio/padsounds2.mp3';
+import '../styles/simon.css';
 
+const audio = {
+  stopTime: 0,
+  green: {
+    start: 0.9,
+    length: 0.4
+  },
+  red: {
+    start: 2.4,
+    length: 0.4
+  },
+  yellow: {
+    start: 3.9,
+    length: 0.4
+  },
+  blue: {
+    start: 5.4,
+    length: 0.4
+  },
+  buzzer: {
+    start: 6.9,
+    length: 1.6
+  }
+}
 
 class Pad extends React.Component {
   constructor(props) {
     super(props);
-
-    this.audio = {
-      green: greenMp3,
-      red: redMp3,
-      yellow: yellowMp3,
-      blue: blueMp3
-    }
 
     this.state = {
       on: false,
@@ -31,9 +44,9 @@ class Pad extends React.Component {
   }
 
   activate() {
-    var audio = document.getElementById(this.props.id + '-audio');
-    audio.load();
-    audio.play();
+    audio.stopTime = audio[this.props.id].start + audio[this.props.id].length;
+    audio.soundEffects.currentTime = audio[this.props.id].start;
+    audio.soundEffects.play();
     this.setState(function() {
       return {on: true};
     }, () => {
@@ -64,10 +77,6 @@ class Pad extends React.Component {
         id={this.props.id}
         className={`simon-pad ${this.state.on?'on':'off'}`}
         onClick={this.handleClick.bind(this)}>
-        <audio id={this.props.id + '-audio'}>
-          <source src={this.audio[this.props.id]} type="audio/mpeg" />
-          Audio not supported by your browser.
-        </audio>
       </div>
     );
   }
@@ -123,9 +132,9 @@ export default class Simon extends React.Component {
     clearTimeout(this.buzzer);
     clearTimeout(this.timer);
     clearInterval(this.cpuPlay);
-    console.log('restartState calling setState', this.state);
     this.setState(function () {
       return {
+       start: false,
        count: 0,
        padLock: false,
        cpuSeq: [],
@@ -134,20 +143,36 @@ export default class Simon extends React.Component {
        userResponse: false,
        buzzer: false
      };
-   }, this.runGame);
+   },);
   }
 
   toggleOn() {
     if (this.state.on) {
-
       this.resetState();
     } else {
       this.setState(function () {
         return !this.state.on && {on: true};
-      });
+      }, this.audioInit.bind(this));
     }
   }
 
+  audioInit() {
+    if (!this.state.audioInit) {
+      audio.soundEffects = document.createElement("audio");
+      audio.soundEffects.src = padSounds;
+      audio.soundEffects.stopTime = 0;
+      audio.soundEffects.play();
+      audio.soundEffects.addEventListener('timeupdate', function () {
+        if (audio.soundEffects.currentTime >= audio.stopTime) {
+          audio.soundEffects.pause();
+
+        }
+      });
+      this.setState(function () {
+        return {audioInit: true};
+      })
+    }
+  }
   toggleStrict() {
     let strict = this.state.strict;
     if (this.state.on && !this.state.strict) {
@@ -169,7 +194,8 @@ export default class Simon extends React.Component {
         });
       } else {
         this.restartState();
-      }
+
+      };
     }
   }
 
@@ -196,8 +222,6 @@ export default class Simon extends React.Component {
       return {userResponse: false};
     });
   }
-
-
 
   clearUserSeq() {
     this.setState(function () {
@@ -246,7 +270,7 @@ export default class Simon extends React.Component {
       }
     }
     if (userSeq.length === cpuSeq.length) {
-      setTimeout(this.runGame.bind(this), 700);
+      setTimeout(this.runGame.bind(this), 800);
     } else {
       this.userInput();
     }
@@ -255,9 +279,7 @@ export default class Simon extends React.Component {
   addPad() {
     const padList = ['green', 'red', 'yellow', 'blue'];
     let cpuSeq = this.state.cpuSeq;
-
     cpuSeq.push(padList[Math.floor(Math.random() * this.padList.length)]);
-
     this.setState(function () {
       return {
         cpuSeq: cpuSeq,
@@ -289,10 +311,20 @@ export default class Simon extends React.Component {
     }, 470);
   }
 
+  playVictory() {
+
+  }
+
   playBuzzer() {
     this.userResponseOff();
     clearTimeout(this.timer);
-    document.getElementById('buzzer').play();
+
+    audio.stopTime = audio.buzzer.start + audio.buzzer.length;
+    audio.soundEffects.currentTime = audio.buzzer.start;
+    console.log('Playing buzzer at', audio.buzzer.start);
+    console.log('stopTime set to', audio.stopTime);
+    audio.soundEffects.play();
+
     this.buzzer = setTimeout(() => {
       if (!this.state.strict) {
         this.clearUserSeq();
@@ -303,7 +335,7 @@ export default class Simon extends React.Component {
       this.setState(function () {
         return {buzzer: false};
       });
-    }, 2000);
+    }, 1500);
   }
 
   runGame() {
@@ -315,8 +347,8 @@ export default class Simon extends React.Component {
   render() {
     return (
       <div id='simon'>
-        <h1>FreeCodeCamp Simon</h1>
-        <p>This app is not optimized for all browsers and may appear distorted</p>
+        <h1>Simon</h1>
+        <p>This app is not optimized for all browsers (especially mobile) and may appear distorted</p>
         <div id='simon-container'>
           <div className='row'>
             <Pad
@@ -357,10 +389,6 @@ export default class Simon extends React.Component {
               </div>
               <button className={!this.state.on?'on-off':'on-off-on'} onClick={this.toggleOn}>ON/OFF</button>
             </div>
-            <audio id='buzzer'>
-              <source src={buzzerMp3} type="audio/mpeg" />
-              Audio not supported in by your browser.
-            </audio>
           </div>
         </div>
       </div>
