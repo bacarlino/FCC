@@ -348,7 +348,6 @@ export default class Simon extends React.Component {
     return (
       <div id='simon'>
         <h1>Simon</h1>
-        <p>This app is not optimized for all browsers (especially mobile) and may appear distorted</p>
         <div id='simon-container'>
           <div className='row'>
             <Pad

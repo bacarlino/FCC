@@ -134,7 +134,6 @@ class Calculator extends React.Component {
     return (
       <div id="calc-app">
         <h1>Calculator</h1>
-        <p>This app has not been optimized for all browsers (especially mobile) and may appear distorted</p>
         <div id="calc-shell">
           <table id="calc-body">
             {/* <tbody> */}

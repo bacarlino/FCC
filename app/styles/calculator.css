@@ -7,8 +7,9 @@
 }
 
 #calc-shell {
+  border: solid black 10px;
   margin: 0 auto;
-  background-color: #6992d3;
+  background-color: gray;
   width: 300px;
   border-radius: 30px;
   padding: 10px;
@@ -32,6 +33,7 @@
   background-color: silver;
   font-size: 2em;
   margin-bottom: 10px;
+  padding-right: 10px;
 }
 
 td {

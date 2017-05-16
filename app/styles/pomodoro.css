@@ -6,11 +6,12 @@
 
 .interface {
   display: flex;
-  display: -webkit-flex;
+  -webkit-display: flex;
   margin: 0 auto;
-  width: 225px;
+  width: 175px;
   height: 50px;
 }
+
 
 .counter {
   display: inline-block;
@@ -19,10 +20,9 @@
 
 .counter-display {
   display: flex;
-  display: -webkit-flex;
+  -webkit-display: flex;
   justify-content: center;
   align-items: center;
-  margin: 0;
   padding: 0;
   background-color: lightgrey;
   font-size: 30px;
@@ -32,7 +32,7 @@
 
 .counter button {
   display: flex;
-  display: -webkit-flex;
+  -webkit-display: flex;
   justify-content: center;
   align-items: center;
   font-size: 30px;
@@ -65,6 +65,7 @@ button.up {
 }
 
 .reset {
+  background-color: silver;
   padding: 10px;
   width: auto;
   font-size: 25px;
@@ -74,12 +75,12 @@ button.up {
 
 .display {
   display: block;
-  margin: 20px auto;
+  margin: 0 auto;
   width: 75%;
   font-size: 450%;
   text-align: center;
   background-color: lightblue;
-  padding: 25px;
+  padding: 25px 0;
   border-radius: 10px;
 }
 
@@ -87,4 +88,11 @@ button.up {
   max-width: 600px;
   text-align: center;
   margin: 0 auto;
+}
+
+@media (max-width: 506px) {
+  .counter {
+    margin: 10px;
+  }
+
 }
