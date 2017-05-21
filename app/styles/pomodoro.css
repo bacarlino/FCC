@@ -6,7 +6,6 @@
 
 .interface {
   display: flex;
-  -webkit-display: flex;
   margin: 0 auto;
   width: 175px;
   height: 50px;
@@ -20,10 +19,8 @@
 
 .counter-display {
   display: flex;
-  -webkit-display: flex;
   justify-content: center;
   align-items: center;
-  padding: 0;
   background-color: lightgrey;
   font-size: 30px;
   width: 75px;
@@ -32,7 +29,6 @@
 
 .counter button {
   display: flex;
-  -webkit-display: flex;
   justify-content: center;
   align-items: center;
   font-size: 30px;

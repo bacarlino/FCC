@@ -8,12 +8,13 @@ html {
   -webkit-box-sizing: inherit;
   -moz-box-sizing: inherit;
   box-sizing: inherit;
+  /*border: solid red;*/
 }
 
 html,
 body,
-#app,
-.container {
+#app
+{
   height: 100%;
 }
 
@@ -44,7 +45,6 @@ a {
 
 .nav {
   display: flex;
-  display: -webkit-flex;
   justify-content: center;
 }
 
@@ -56,32 +56,28 @@ a {
   margin-right: 15px;
 }
 
-.home {
-  /*border: solid green;*/
-  text-align: center;
-  max-width: 900px;
-  margin: 0 auto;
-  height: 100%;
+#home {
   display: flex;
-  justify-content: center;
-  align-items: center;
+  flex-direction: column;
 }
 
-.home h1 {
+#home h1 {
   font-size: 3000%;
+  margin: 0;
+}
+
+#home h2 {
+  margin-top: 0;
 }
 
 @media (max-width: 750px) {
-  .home h1 {
+  #home h1 {
     font-size: 2000%;
   }
 
   @media (max-width: 500px) {
-    .home h1 {
+    #home h1 {
       font-size: 1250%;
     }
   }
-
-
-
 }

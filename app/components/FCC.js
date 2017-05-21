@@ -22,7 +22,7 @@ export default class FCC extends React.Component {
             <Route path='/calculator' component={Calculator} />
             <Route path='/pomodoro' component={Pomodoro} />
             <Route path='/simon' component={Simon} />
-            {/* <Route path='/tictactoe' /> */}
+            {/* <Route path='/tictactoe' />  */}
             <Route render={function () {
               return <p>Not Found</p>
             }} />
